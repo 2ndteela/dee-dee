@@ -1,0 +1,9 @@
+.home-card > * {
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+.home-card {
+    height: 90vh;
+    justify-content: center;
+}

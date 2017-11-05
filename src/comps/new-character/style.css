@@ -1,0 +1,52 @@
+.new-char-card input {
+    background-color: transparent;
+    font-size: 24px;
+    margin-bottom: 16px;
+    border: none;
+    border-bottom: 1px solid white;
+    width: 100%;
+    color: white;
+}
+
+.new-char-card div {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.new-char-card h2 {
+    width: 100%;
+    align-items: left;
+    font-size: 36px;
+    margin-bottom: 8px;
+}
+
+.new-char-card .half-wit {
+    width: 49%;
+}
+
+.new-char-card .first {
+   margin-right: 2%;
+}
+
+.lil-deet {
+    width: 48% !important;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 24px;
+    font-size: 18px;
+    margin-bottom: 8px !important;
+}
+
+.proficient {
+    color: deepskyblue;
+}
+
+.throw {
+    font-size: 24px;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 16px;
+    width: 45% !important;
+}

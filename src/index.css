@@ -1,0 +1,77 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+body {
+  background-color: #333;
+  font-family: Josefin Slab;
+  color: white;
+}
+
+style {
+  display: none;
+}
+
+title {
+  display: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: Josefin Sans;
+}
+
+.header {
+  width: 100vw;
+  background-color: black;
+  padding: 16px;
+}
+
+.col-12 {
+  width: 100vw !important;
+}
+
+.col-11 {
+  width: 92vw !important;
+}
+.col-6 {
+  width: 48vw !important;
+}
+
+.col-4 {
+  width: 32vw !important;
+}
+
+.col-3 {
+  width: 24.5vw !important;
+}
+
+.full-pad {
+  padding: 16px;
+}
+
+.half-pad {
+  padding: 8px;
+}
+
+button {
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  padding: 4px 16px;
+  transition: .3s;
+  font-size: 24px;
+}
+
+button:hover {
+  background-color: black;
+}
+
+.line {
+  border-bottom: 1px solid white; 
+}
