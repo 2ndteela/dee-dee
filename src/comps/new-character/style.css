@@ -50,3 +50,53 @@
     padding-right: 16px;
     width: 45% !important;
 }
+
+.weapon-div {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 0px !important;
+}
+
+.weapon-div input {
+    font-size: 16px;
+    width: 40%;
+}
+
+.weapon-div input:nth-child(2) {
+    width: 15%;
+}
+
+.weapon-div input:nth-child(3) {
+    width: 40%;
+}
+
+#weapons {
+    justify-content: center;
+    margin-bottom: 0 !important;
+}
+
+#weapons button {
+    width: 80%;
+}
+
+.center-div{
+    justify-content: center;
+}
+
+.third-wit {
+    width: 32% !important;
+}
+
+.middle {
+    margin-right: 2% !important;
+    margin-left: 2% !important;
+}
+
+.short-area {
+    min-height: 100px !important;
+    height: 100px !important;
+}
+
+#skills {
+    margin-bottom: 0 !important;
+}
