@@ -1,0 +1,15 @@
+.selectable {
+    width: 92vw;
+    font-size: 24px;
+    background-color: white;
+    color: black;
+    text-decoration: none;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    padding: 8px;
+}
+
+#select-list {
+    margin-top: 16px;
+}
