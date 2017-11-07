@@ -9,7 +9,6 @@ const details = [{attr: 3, name:'Acrobatics'}, {attr: 6, name:'Animal Handling'}
 class NewCharacter extends Component {
     saveCharacter() {
         if (typeof(Storage) !== "undefined") {
-            console.log('YUP')
             const inputs = document.querySelectorAll('input')
             const throws = document.querySelectorAll('.throw')
             const deets = document.querySelectorAll('.lil-deet')
@@ -17,7 +16,6 @@ class NewCharacter extends Component {
             const weapons = document.querySelectorAll('.weapon-div')
             const skills = document.querySelectorAll('.skill-area')
             const password = inputs[inputs.length -1].value
-            console.log(password)
             let current = localStorage.getItem(password)
             let fullArray = []
             if(current) fullArray = JSON.parse(current)
@@ -42,7 +40,6 @@ class NewCharacter extends Component {
                 const describe = skills[i].childNodes[1].value
                 skillArray.push({name: word, des: describe})
             }
-            console.log(deetArray)
             const guy = {
                 name: inputs[0].value,
                 race: inputs[1].value,
@@ -64,7 +61,10 @@ class NewCharacter extends Component {
             }
             console.log(guy)
             fullArray.push(guy)
-            localStorage.setItem(password, JSON.stringify(fullArray))
+            if(password !== '') localStorage.setItem(password, JSON.stringify(fullArray))
+            else {
+                window.alert("You need to put in a passord")
+            }
         } else {
             console.log('No storage for you :/')
         }
