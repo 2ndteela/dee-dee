@@ -1,6 +1,6 @@
 #pack-div {
     width: 100vw;
-    padding: 16px;
+    padding: 0 16px;
 }
 
 #pack-div textarea {
@@ -17,7 +17,7 @@
 
 .skill-div {
     border-top: 1px solid white;
-    padding: 16px;
+    padding: 16px 0;
     width: 92vw;
 }
 
