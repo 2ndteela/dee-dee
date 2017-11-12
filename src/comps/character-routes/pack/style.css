@@ -1,0 +1,28 @@
+#pack-div {
+    width: 100vw;
+    padding: 16px;
+}
+
+#pack-div textarea {
+    width: 92vw;
+    margin-bottom: 16px;
+}
+
+#pack-div h1 {
+    width: 100vw;
+    padding: 0px 16px;
+    text-align: left;
+    align-items: flex-start;
+}
+
+.skill-div {
+    border-top: 1px solid white;
+    padding: 16px;
+    width: 92vw;
+}
+
+.skill-div div {
+    width: 92vw;
+    align-items: flex-start;
+    padding-bottom: 8px;
+}
