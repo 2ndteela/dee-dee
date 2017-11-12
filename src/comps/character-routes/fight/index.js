@@ -2,15 +2,20 @@ import React, { Component } from 'react'
 import './style.css'
 
 class Fight extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            guy : JSON.parse(localStorage.getItem('characters'))[this.props.index]
+        }
+    }
     render() {
-        console.log(this.props.deets)
         return (
             <div id='fight-container'>
                 <div className='fancies-container'>
                     <div className='fancy-health-div'>
                         <div>
                             <input type='text'/> 
-                            <span>/ {this.props.deets.health}</span>
+                            <span>/ {this.state.guy.health}</span>
                         </div>
                         <span>Health</span>
                     </div>
@@ -23,15 +28,15 @@ class Fight extends Component {
                 </div>
                 <div className='fancies-container' id='three-stats'>
                     <div>
-                        <p>{this.props.deets.ac}</p>
+                        <p>{this.state.guy.ac}</p>
                         <span>AC</span>
                     </div>
                     <div>
-                        <p>{this.props.deets.initiavtive}</p>
+                        <p>{this.state.guy.initiavtive}</p>
                         <span>Initiavtive</span>
                     </div>
                     <div>
-                        <p>{this.props.deets.speed}</p>
+                        <p>{this.state.guy.speed}</p>
                         <span>Speed</span>
                     </div>
                 </div>
@@ -42,7 +47,7 @@ class Fight extends Component {
                         <span>Bns</span>
                         <span className='weapon-damage'>Damage</span>
                     </div>
-                    {this.props.deets.weapons.map((data,itr) => (
+                    {this.state.guy.weapons.map((data,itr) => (
                         <div>
                             <span className='weapon-name'>{data.name}</span>
                             <span>{data.bonus}</span>

@@ -11,7 +11,7 @@ class EditPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            guy: this.props.deets
+            guy: JSON.parse(localStorage.getItem('characters'))[this.props.index]
         }
     }
     saveCharacter() {
@@ -185,25 +185,25 @@ class EditPage extends Component {
             <div className ='col-12 full-pad new-char-card'>
                 <div>
                     <h2>Basic Info</h2>
-                    <input type='text' defaultValue={this.props.deets.name}/>
-                    <input type='text' defaultValue={this.props.deets.race}/>
-                    <input type='text' defaultValue={this.props.deets.class} className='half-wit first'/>
-                    <input type='number' defaultValue={this.props.deets.level} className='half-wit '/>
-                    <input type='number' defaultValue={this.props.deets.prof} id='prof' className='half-wit first'/>
-                    <input type='number' defaultValue={this.props.deets.exp} className='half-wit'/>
+                    <input type='text' defaultValue={this.state.guy.name}/>
+                    <input type='text' defaultValue={this.state.guy.race}/>
+                    <input type='text' defaultValue={this.state.guy.class} className='half-wit first'/>
+                    <input type='number' defaultValue={this.state.guy.level} className='half-wit '/>
+                    <input type='number' defaultValue={this.state.guy.prof} id='prof' className='half-wit first'/>
+                    <input type='number' defaultValue={this.state.guy.exp} className='half-wit'/>
                 </div>
                 <div id='stats'>
                     <h2>Stats</h2>
-                    <input type='number' defaultValue={this.props.deets.stats[0].num} className='half-wit first' onChange={() => this.getValue(1)}/>
-                    <input type='number' defaultValue={this.props.deets.stats[1].num} className='half-wit' onChange={() => this.getValue(2)}/>
-                    <input type='number' defaultValue={this.props.deets.stats[2].num} className='half-wit first' onChange={() => this.getValue(3)}/>
-                    <input type='number' defaultValue={this.props.deets.stats[3].num} className='half-wit'onChange={() => this.getValue(4)}/>
-                    <input type='number' defaultValue={this.props.deets.stats[4].num} className='half-wit first' onChange={() => this.getValue(5)}/>
-                    <input type='number' defaultValue={this.props.deets.stats[5].num} className='half-wit' onChange={() => this.getValue(6)}/>
-                    <input type='number' defaultValue={this.props.deets.ac} className='third-wit' />
-                    <input type='number' defaultValue={this.props.deets.speed} className='third-wit middle' />
-                    <input type='number'defaultValue={this.props.deets.initiavtive} className='third-wit' />
-                    <input type='number' defaultValue={this.props.deets.health} />
+                    <input type='number' defaultValue={this.state.guy.stats[0].num} className='half-wit first' onChange={() => this.getValue(1)}/>
+                    <input type='number' defaultValue={this.state.guy.stats[1].num} className='half-wit' onChange={() => this.getValue(2)}/>
+                    <input type='number' defaultValue={this.state.guy.stats[2].num} className='half-wit first' onChange={() => this.getValue(3)}/>
+                    <input type='number' defaultValue={this.state.guy.stats[3].num} className='half-wit'onChange={() => this.getValue(4)}/>
+                    <input type='number' defaultValue={this.state.guy.stats[4].num} className='half-wit first' onChange={() => this.getValue(5)}/>
+                    <input type='number' defaultValue={this.state.guy.stats[5].num} className='half-wit' onChange={() => this.getValue(6)}/>
+                    <input type='number' defaultValue={this.state.guy.ac} className='third-wit' />
+                    <input type='number' defaultValue={this.state.guy.speed} className='third-wit middle' />
+                    <input type='number'defaultValue={this.state.guy.initiavtive} className='third-wit' />
+                    <input type='number' defaultValue={this.state.guy.health} />
                 </div>
                 <div>
                     <h2>Saving Throws</h2>
@@ -220,7 +220,7 @@ class EditPage extends Component {
                     <h2>Detail Stats</h2>
                     {details.map((thing, itr)=>{
                         return (
-                            <div className='lil-deet' key={thing.name} onClick={()=> this.addPro(itr)}><span>{thing.name}: </span><span className='deet-val'>{this.checkDeet(this.props.deets.deets[itr])}</span></div>
+                            <div className='lil-deet' key={thing.name} onClick={()=> this.addPro(itr)}><span>{thing.name}: </span><span className='deet-val'>{this.checkDeet(this.state.guy.deets[itr])}</span></div>
                         )
                     }
                 )}
@@ -228,7 +228,7 @@ class EditPage extends Component {
                 <div className='center-div'>
                     <h2>Weapons</h2>
                     <div id='weapons'>
-                        {this.props.deets.weapons.map((data, itr) => (
+                        {this.state.guy.weapons.map((data, itr) => (
                             <div key={data.name} className='weapon-div'>
                                 <input type='text' defaultValue={data.name} />
                                 <input type='text' defaultValue={data.bonus}/>
@@ -242,7 +242,7 @@ class EditPage extends Component {
                 <div className='center-div'>
                     <div id='skills'>
                         <h2>Skills and Attributes</h2>
-                        {this.props.deets.skills.map((data, itr) => (
+                        {this.state.guy.skills.map((data, itr) => (
                             <div key={data.name} className='skill-area'>
                                 <input defaultValue={data.name} />
                                 <textarea defaultValue={data.des} className='short-area'/>

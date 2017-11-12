@@ -8,7 +8,8 @@ class Stats extends Component {
         super(props) 
         this.state = {
             res: 20,
-            show: false
+            show: false,
+            guy: JSON.parse(localStorage.getItem('characters'))[this.props.index]
         }
     }
     toggleRes(thing) {
@@ -40,7 +41,7 @@ class Stats extends Component {
     }
 
     proStat(thing) {
-        const withPro = parseInt(this.props.deets.prof, 10) + parseInt(thing.num, 10)
+        const withPro = parseInt(this.state.guy.prof, 10) + parseInt(thing.num, 10)
         if(thing.pro) {
             let mod = Math.floor((parseInt(withPro, 10) -10) /2)
             if (mod >= 0) {
@@ -58,12 +59,12 @@ class Stats extends Component {
     }
     componentDidMount () {
         mods = document.querySelectorAll('.mod-val')
-        console.log(mods)
+        console.log(this.state.guy)
     }
 
     render () {
-        const stats = this.props.deets.stats
-        const deets = this.props.deets.deets
+        const stats = this.state.guy.stats
+        const deets = this.state.guy.deets
 
         return (
             <div onClick={() => this.exitBox()} id="stats-body">

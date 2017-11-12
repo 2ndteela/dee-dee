@@ -1,6 +1,7 @@
 #character-view-card {
     padding: 16px;
     width: 100vw;
+    padding-bottom: 40px;
 }
 
 #character-tabs {

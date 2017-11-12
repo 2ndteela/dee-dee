@@ -10,10 +10,10 @@ import EditPage from '../character-routes/edit/index'
 let info
 let indexNum
 
-const statCaller = () => <Stats deets={info} />
-const packCaller = () => <Pack deets={info} />
-const fightCaller = () => <Fight deets={info} />
-const editCaller = () => <EditPage deets={info} index={indexNum} />
+const statCaller = () => <Stats index={indexNum} />
+const packCaller = () => <Pack index={indexNum} />
+const fightCaller = () => <Fight index={indexNum} />
+const editCaller = () => <EditPage index={indexNum} />
 
 class ViewCharater extends Component {
     constructor(props) {

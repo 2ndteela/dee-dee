@@ -154,7 +154,7 @@ class NewCharacter extends Component {
         const throws = document.querySelectorAll('.throw-num')
             if(isNaN(prof)) prof = 0
             for(let i = 0; i < displays.length; i++) {
-                let temp = Math.ceil((parseInt(numbas[num-1].value, 10) - 10) /2)
+                let temp = Math.floor((parseInt(numbas[num-1].value, 10) - 10) /2)
                 const withPro = parseInt(temp, 10) + parseInt(prof, 10)
                 if(details[i].attr === num) {
                     if(numbas[num-1].value === '') {
