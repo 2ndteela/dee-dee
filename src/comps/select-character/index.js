@@ -11,9 +11,7 @@ class Selector extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.url.match.params.password)
-        const word = this.props.url.match.params.password
-        const array = localStorage.getItem(word)
+        const array = localStorage.getItem('characters')
         if(array) {
             const useful = JSON.parse(array)
             this.setState({
@@ -28,7 +26,6 @@ class Selector extends Component {
     }
 
     render() {
-        const param = this.props.url.match.params.password
         if(this.state.list) {
             return(
                 <div>
@@ -36,7 +33,7 @@ class Selector extends Component {
                     <div id='select-list'>
                         {this.state.list.map((data, itr) => {
                             console.log(data)
-                            return <NavLink key ={itr} className='selectable' to={`/character/${param}/${itr}`} ><span>{data.name}</span><span>{data.race} {data.class}</span></NavLink>
+                            return <NavLink key ={itr} className='selectable' to={`/character/${itr}`} ><span>{data.name}</span><span>{data.race} {data.class}</span></NavLink>
                         })}
                     </div>
                 </div>

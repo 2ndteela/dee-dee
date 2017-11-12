@@ -61,10 +61,7 @@ class NewCharacter extends Component {
             }
             console.log(guy)
             fullArray.push(guy)
-            if(password !== '') localStorage.setItem(password, JSON.stringify(fullArray))
-            else {
-                window.alert("You need to put in a passord")
-            }
+            localStorage.setItem('characters', JSON.stringify(fullArray))
         } else {
             console.log('No storage for you :/')
         }
@@ -257,7 +254,6 @@ class NewCharacter extends Component {
                     <h2>Notes</h2>
                     <textarea></textarea>
                 </div>
-                <input placeholder='Password'/>
                 <button onClick={()=>this.saveCharacter()}>Save Character</button>
             </div>
         </div>

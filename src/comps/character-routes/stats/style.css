@@ -1,0 +1,53 @@
+#stats-body h1 {
+    width: 100vw;
+    padding: 0 16px;
+    align-items: flex-start;
+    font-size: 36px;
+}
+
+.main-stats {
+    border-top: 1px solid white;
+    margin-bottom: 16px;
+}
+
+.main-stats div {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 92vw;
+    font-size: 24px;
+    padding: 8px;
+    transition: .3s;
+}
+
+.main-stats div:hover {
+    color: deepskyblue;
+}
+
+@keyframes spin {
+    from {
+        opacity: 0;
+        display: none;
+        transform: rotateY(0deg)
+    }
+    to {
+        opacity: 1;
+        display: flex;
+        transform: rotateY(1080)
+    }
+}
+
+#throw-result {
+    width: 80vw;
+    height: 40vh;
+    background-color: black;
+    border: 1px solid white;
+    position: fixed;
+    top: 20vh;
+    left: 10vw;
+    justify-content: center;
+    font-size: 128px;
+    transition: .3s;
+    animation: spin;
+    animation-duration: .3s;
+    display: none;
+}

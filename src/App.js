@@ -18,9 +18,9 @@ class App extends Component {
         <div>
           <div className="App">
             <Route exact path='/' component={Home} />
-            <Route path='/character-select/:password' component={Selecting} />
+            <Route path='/character-select' component={Selecting} />
             <Route path='/character-new' component={NewCharacter} />
-            <Route path='/character/:password/:index' component={viewCharacter} />
+            <Route path='/character/:index' component={viewCharacter} />
           </div>
           <div id='linx'>
             <NavLink to='/'>Home</NavLink>
