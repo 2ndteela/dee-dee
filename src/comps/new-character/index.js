@@ -18,16 +18,16 @@ class NewCharacter extends Component {
             const password = inputs[inputs.length -1].value
             let current = localStorage.getItem(password)
             let fullArray = []
-            if(current) fullArray = JSON.parse(current)
+            if(current) fullArray = JSON.parse(current, 10)
             let statArray = []
             let deetArray = []
             let weaponArray = []
             let skillArray = []
             for(let i = 0; i < throws.length; i++) {
-                statArray.push({num: parseInt(inputs[i+6].value), pro: throws[i].classList.contains('proficient')})
+                statArray.push({num: parseInt(inputs[i+6].value, 10), pro: throws[i].classList.contains('proficient')})
             }
             for(let i = 0; i < deets.length; i++) {
-                deetArray.push({num: parseInt(deets[i].childNodes[1].innerHTML), pro: deets[i].classList.contains('proficient') })
+                deetArray.push({num: parseInt(deets[i].childNodes[1].innerHTML, 10), pro: deets[i].classList.contains('proficient') })
             }
             for(let i = 0; i < weapons.length; i++) {
                 const title = weapons[i].childNodes[0].value
@@ -44,15 +44,15 @@ class NewCharacter extends Component {
                 name: inputs[0].value,
                 race: inputs[1].value,
                 class: inputs[2].value,
-                level: parseInt(inputs[3].value),
-                prof: parseInt(inputs[4].value),
-                exp: parseInt(inputs[5].value),
+                level: parseInt(inputs[3].value, 10),
+                prof: parseInt(inputs[4].value, 10),
+                exp: parseInt(inputs[5].value, 10),
                 stats: statArray,
                 deets: deetArray,
-                ac: parseInt(inputs[12].value),
-                speed: parseInt(inputs[13].value),
-                initiavtive: (inputs[14].value),
-                health: parseInt(inputs[15].value),
+                ac: parseInt(inputs[12].value, 10),
+                speed: parseInt(inputs[13].value, 10),
+                initiavtive: (inputs[14].value, 10),
+                health: parseInt(inputs[15].value, 10),
                 pack: areas[0].value,
                 notes: areas[1].value,
                 weapons: weaponArray,
@@ -109,16 +109,16 @@ class NewCharacter extends Component {
         const displays = document.querySelectorAll('.throw-num')
         const prof = document.getElementById('prof').value
         if(prof) {
-            let temp = parseInt(displays[num].innerHTML)
+            let temp = parseInt(displays[num].innerHTML, 10)
             const test = displays[num].parentElement.classList.contains('proficient')
             if(!test) {
-                temp += parseInt(prof)
+                temp += parseInt(prof, 10)
                 displays[num].innerHTML = temp
                 displays[num].parentElement.classList.add('proficient')
             }
             else {
                 if(temp !== '' || !isNaN(temp)){
-                    temp -= parseInt(prof)
+                    temp -= parseInt(prof, 10)
                 } 
                 displays[num].innerHTML = temp
                 displays[num].parentElement.classList.remove('proficient')
@@ -129,16 +129,16 @@ class NewCharacter extends Component {
         const displays = document.querySelectorAll('.deet-val')
         const prof = document.getElementById('prof').value
         if(prof) {
-            let temp = parseInt(displays[num].innerHTML)
+            let temp = parseInt(displays[num].innerHTML, 10)
             const test = displays[num].parentElement.classList.contains('proficient')
             if(!test) {
-                temp += parseInt(prof)
+                temp += parseInt(prof, 10)
                 displays[num].innerHTML = temp
                 displays[num].parentElement.classList.add('proficient')
             }
             else {
                 if(temp !== '' || !isNaN(temp)){
-                    temp -= parseInt(prof)
+                    temp -= parseInt(prof, 10)
                 } 
                 displays[num].innerHTML = temp
                 displays[num].parentElement.classList.remove('proficient')
@@ -154,8 +154,8 @@ class NewCharacter extends Component {
         const throws = document.querySelectorAll('.throw-num')
             if(isNaN(prof)) prof = 0
             for(let i = 0; i < displays.length; i++) {
-                let temp = Math.ceil((parseInt(numbas[num-1].value) - 10) /2)
-                const withPro = parseInt(temp) + parseInt(prof)
+                let temp = Math.ceil((parseInt(numbas[num-1].value, 10) - 10) /2)
+                const withPro = parseInt(temp, 10) + parseInt(prof, 10)
                 if(details[i].attr === num) {
                     if(numbas[num-1].value === '') {
                         displays[i].innerHTML = 0

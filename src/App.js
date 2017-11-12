@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter as Router, NavLink, Route} from 'react-router-dom'
+import { BrowserRouter as Router, Route} from 'react-router-dom'
 import Home from './comps/home'
 import NewCharacter from './comps/new-character'
 import SelectCharacter from './comps/select-character/index'
@@ -21,11 +21,6 @@ class App extends Component {
             <Route path='/character-select' component={Selecting} />
             <Route path='/character-new' component={NewCharacter} />
             <Route path='/character/:index' component={viewCharacter} />
-          </div>
-          <div id='linx'>
-            <NavLink to='/'>Home</NavLink>
-            <NavLink to='/character-select'>Select</NavLink>
-            <NavLink to='/character-new'>New</NavLink>
           </div>
         </div>
       </Router>
