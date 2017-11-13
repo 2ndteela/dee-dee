@@ -5,8 +5,9 @@ class Pack extends Component {
     constructor(props) {
         super(props) 
         this.state = {
-            pack: JSON.parse(localStorage.getItem('characters'))[0].pack,
-            notes: JSON.parse(localStorage.getItem('characters'))[0].notes
+            pack: JSON.parse(localStorage.getItem('characters'))[this.props.index].pack,
+            notes: JSON.parse(localStorage.getItem('characters'))[this.props.index].notes,
+            guy: JSON.parse(localStorage.getItem('characters'))[this.props.index]
         }
     }
     type(event, which) {
@@ -38,7 +39,7 @@ class Pack extends Component {
                 <textarea defaultValue={this.state.notes} onChange={(event) => this.type(event, false)}></textarea>
                 <h1>Skills</h1>
                 <div className='skill-div'>
-                    {this.props.deets.skills.map((data, itr) => (
+                    {this.state.guy.skills.map((data, itr) => (
                     <div>
                         <h2>{data.name}</h2>
                         <p>{data.des}</p>

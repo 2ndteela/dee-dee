@@ -16,7 +16,7 @@ class NewCharacter extends Component {
             const weapons = document.querySelectorAll('.weapon-div')
             const skills = document.querySelectorAll('.skill-area')
             const password = inputs[inputs.length -1].value
-            let current = localStorage.getItem(password)
+            let current = localStorage.getItem('characters')
             let fullArray = []
             if(current) fullArray = JSON.parse(current, 10)
             let statArray = []
@@ -53,14 +53,15 @@ class NewCharacter extends Component {
                 speed: parseInt(inputs[13].value, 10),
                 initiavtive: (inputs[14].value, 10),
                 health: parseInt(inputs[15].value, 10),
-                pack: areas[0].value,
-                notes: areas[1].value,
+                pack: areas[areas.length-2].value,
+                notes: areas[areas.length-1].value,
                 weapons: weaponArray,
                 skills: skillArray
 
             }
             console.log(guy)
             fullArray.push(guy)
+            console.log(fullArray)
             localStorage.setItem('characters', JSON.stringify(fullArray))
         } else {
             console.log('No storage for you :/')
