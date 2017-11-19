@@ -15,7 +15,8 @@ class NewCharacter extends Component {
             const areas = document.querySelectorAll('textarea')
             const weapons = document.querySelectorAll('.weapon-div')
             const skills = document.querySelectorAll('.skill-area')
-            const password = inputs[inputs.length -1].value
+            const spells = document.querySelectorAll('.spell-div')
+            const slots = document.querySelectorAll('.spell-slot')
             let current = localStorage.getItem('characters')
             let fullArray = []
             if(current) fullArray = JSON.parse(current, 10)
@@ -23,6 +24,8 @@ class NewCharacter extends Component {
             let deetArray = []
             let weaponArray = []
             let skillArray = []
+            let spellArray = []
+            let slotArray = []
             for(let i = 0; i < throws.length; i++) {
                 statArray.push({num: parseInt(inputs[i+6].value, 10), pro: throws[i].classList.contains('proficient')})
             }
@@ -40,6 +43,17 @@ class NewCharacter extends Component {
                 const describe = skills[i].childNodes[1].value
                 skillArray.push({name: word, des: describe})
             }
+            for(let i = 0; i < spells.length; i++) {
+                const title = spells[i].childNodes[0].value
+                const damage = spells[i].childNodes[1].value
+                const desc = spells[i].childNodes[2].value 
+                spellArray.push({name: title, dmg: damage, des: desc})
+            }
+            for(let i = 0; i < slots.length; i++) {
+                const level = slots[i].childNodes[0].innerHTML
+                const number = slots[i].childNodes[1].value
+                slotArray.push({lvl: level, num: number, used: 0})
+            }
             const guy = {
                 name: inputs[0].value,
                 race: inputs[1].value,
@@ -56,7 +70,12 @@ class NewCharacter extends Component {
                 pack: areas[areas.length-2].value,
                 notes: areas[areas.length-1].value,
                 weapons: weaponArray,
-                skills: skillArray
+                skills: skillArray,
+                tempHealth : 0,
+                currentHealth: parseInt(inputs[15].value, 10),
+                spells: spellArray,
+                spellSave: parseInt(document.getElementById('spell-save').value, 10),
+                spellSlots: slotArray
 
             }
             console.log(guy)
@@ -83,8 +102,10 @@ class NewCharacter extends Component {
 
     removeSkill() {
         const over = document.getElementById('skills')
-        const last = over.childNodes[over.childNodes.length - 1]
-        over.removeChild(last)
+        if(over.childNodes.length) { 
+            const last = over.childNodes[over.childNodes.length - 1]
+            over.removeChild(last)
+        }
     }
 
     addWeapon() {
@@ -103,9 +124,58 @@ class NewCharacter extends Component {
     }
     removeWeapon() {
        const over = document.getElementById('weapons')
-       const last = over.childNodes[over.childNodes.length - 1]
-       over.removeChild(last)
+       if(over.childNodes.length) {
+            const last = over.childNodes[over.childNodes.length - 1]
+            over.removeChild(last)
+       }
     }
+
+    addSpell () {
+        const daddy = document.getElementById('spells')
+        const container = document.createElement('div')
+        const input = document.createElement('input')
+        const name = document.createElement('input')
+        const area = document.createElement('textarea')
+        name.placeholder = 'Name'
+        input.placeholder ='Damage'
+        area.placeholder = 'Description'
+        area.classList.add('short-area')
+        container.appendChild(name)
+        container.appendChild(input)
+        container.appendChild(area)
+        container.classList.add('spell-div')
+        daddy.appendChild(container)
+    }
+
+    removeSpell() {
+        const over = document.getElementById('spells')
+        if(over.childNodes.length) {
+            const last = over.childNodes[over.childNodes.length - 1]
+            over.removeChild(last)
+        }
+    }
+
+    addSlot() {
+        const daddy = document.getElementById('spell-slots')
+        const container = document.createElement('div')
+        const input = document.createElement('input')
+        const header = document.createElement('h3')
+        input.placeholder = '# of Slots'
+        header.innerHTML = `Level ${daddy.childNodes.length}:`
+        container.classList.add('spell-slot')
+        container.appendChild(header)
+        container.appendChild(input)
+        daddy.appendChild(container)
+    }
+
+    removeSlot () {
+        const over = document.getElementById('spell-slots')
+        if(over.childNodes.length > 1) {
+            const last = over.childNodes[over.childNodes.length - 1]
+            over.removeChild(last)
+        }
+    }
+
     addProThrow(num) {
         const displays = document.querySelectorAll('.throw-num')
         const prof = document.getElementById('prof').value
@@ -235,6 +305,31 @@ class NewCharacter extends Component {
                     </div>
                     <button onClick={() => this.addWeapon()}>Add Weapon</button>
                     <button onClick={() => this.removeWeapon()}>Remove Last</button>
+                </div>
+                <div className='center-div'>
+                    <h2>Spells</h2>
+                    <input type='text' id='spell-save' placeholder='Spell Save DC'/>
+                    <div id='spells'>
+                        <div className='spell-div'>
+                            <input type='text' placeholder='Name' />
+                            <input type='text' placeholder='Damage'/>
+                            <textarea placeholder='Description' className='short-area'/> 
+                        </div>
+                    </div>
+                    <button onClick={()=>this.addSpell()}>Add Spell</button>
+                    <button onClick={()=>this.removeSpell()}>Remove Last</button>
+                </div>
+                <div className='center-div'>
+                    <h2>Spell Slots</h2>
+                    <div id='spell-slots'>
+                        <div className='spell-slot'>
+                            <h3>Cantrips:</h3>
+                            <input type='number' placeholder='# of slots' />
+                        </div>
+                    </div>
+
+                    <button onClick={()=>this.addSlot()}>Add Spell Slot</button>
+                    <button onClick={()=>this.removeSlot()}>Remove Last</button>
                 </div>
                 <div className='center-div'>
                     <div id='skills'>

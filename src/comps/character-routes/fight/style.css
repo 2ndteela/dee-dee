@@ -4,6 +4,10 @@
     font-size: 24px;
 }
 
+#fight-container input {
+    font-family: Josefin Slab !important;
+}
+
 #fight-container h2 {
     width: 100%;
     align-items: flex-start;
@@ -58,6 +62,7 @@
     border-top: 1px solid white;
     padding-top: 4px;
     width: 92vw;
+    margin-bottom: 16px;
 
 }
 .fight-list div {
@@ -87,4 +92,72 @@
 
 .list-header .weapon-damage {
     min-width: 38vw;
+}
+
+#magic-bois {
+    flex-direction: column;
+    flex-direction: column !important;
+    border-top: 1px solid white;
+}
+
+.spell-header {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 4px;
+}
+
+.spell-deets {
+    flex-direction: column !important;
+    margin-top: 16px;
+    width: 92vw !important;
+    align-items: flex-start;
+}
+
+#magic-head {
+    width: 92vw;
+    justify-content: space-between;
+}
+
+#magic-head span {
+    width: 200px;
+}
+
+#magic-head-wrapper {
+    flex-direction: column !important;
+    margin-bottom: 16px;
+}
+
+#them-slots {
+    flex-direction: column !important;
+}
+
+#slot-list {
+    border-top: 1px solid white;
+    padding-top: 8px;
+    flex-direction: column !important;
+}
+
+.slot-input {
+    flex-direction: row !important;
+}
+
+#slot-list h3 {
+    width: 300px;
+}
+
+#slot-list div {
+    justify-content: space-between !important;
+    margin-bottom: 4px;
+}
+
+#slot-list div h3 {
+    text-align: left;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+#slot-list div span {
+    align-items: flex-end;
+    justify-content: flex-end;
 }

@@ -100,3 +100,18 @@
 #skills {
     margin-bottom: 0 !important;
 }
+
+.spell-slot {
+    flex-direction: row !important;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 4px !important;
+}
+
+.spell-slot input {
+    width: 100px !important;
+}
+
+.spell-slot h3 {
+    font-size: 24px;
+}

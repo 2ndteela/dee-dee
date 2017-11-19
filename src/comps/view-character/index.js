@@ -7,7 +7,6 @@ import Pack from '../character-routes/pack/index'
 import Fight from "../character-routes/fight/index"
 import EditPage from '../character-routes/edit/index'
 
-let info
 let indexNum
 
 const statCaller = () => <Stats index={indexNum} />
@@ -25,7 +24,6 @@ class ViewCharater extends Component {
     componentWillMount () {
         const list = JSON.parse(localStorage.getItem('characters'))
         const guy = list[this.props.match.params.index]
-        info = guy
         indexNum = this.props.match.params.index
         this.setState({
             char: guy

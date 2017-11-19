@@ -40,7 +40,7 @@ class Pack extends Component {
                 <h1>Skills</h1>
                 <div className='skill-div'>
                     {this.state.guy.skills.map((data, itr) => (
-                    <div>
+                    <div key={itr}>
                         <h2>{data.name}</h2>
                         <p>{data.des}</p>
                     </div>
