@@ -19,9 +19,10 @@ class EditPage extends Component {
             const inputs = document.querySelectorAll('input')
             const throws = document.querySelectorAll('.throw')
             const deets = document.querySelectorAll('.lil-deet')
-            const areas = document.querySelectorAll('textarea')
             const weapons = document.querySelectorAll('.weapon-div')
             const skills = document.querySelectorAll('.skill-area')
+            const spells = document.querySelectorAll('.spell-div')
+            const slots = document.querySelectorAll('.spell-slot')
             const password = inputs[inputs.length -1].value
             let current = localStorage.getItem(password)
             let fullArray = []
@@ -30,6 +31,8 @@ class EditPage extends Component {
             let deetArray = []
             let weaponArray = []
             let skillArray = []
+            let spellArray = []
+            let slotArray = []
             for(let i = 0; i < throws.length; i++) {
                 if(inputs[i+6].value !== '') {
                     statArray.push({num: parseInt(inputs[i+6].value, 10), pro: throws[i].classList.contains('proficient')})
@@ -42,28 +45,28 @@ class EditPage extends Component {
                 deetArray.push({num: parseInt(deets[i].childNodes[1].innerHTML, 10), pro: deets[i].classList.contains('proficient') })
             }
             for(let i = 0; i < weapons.length; i++) {
-                if(weapons[i].childNodes[0].value !== '') {
-                    const title = weapons[i].childNodes[0].value
-                    const bns = weapons[i].childNodes[1].value
-                    const dmg = weapons[i].childNodes[2].value
+                    const title = weapons[i].childNodes[0].value === '' ? this.state.guy.weapons[i].name : weapons[i].childNodes[0].value
+                    const bns = weapons[i].childNodes[1].value === '' ? this.state.guy.weapons[i].bns : weapons[i].childNodes[1].value
+                    const dmg = weapons[i].childNodes[0].value === '' ? this.state.guy.weapons[i].dmg : weapons[i].childNodes[2].value
                     weaponArray.push({name: title, bonus: bns, damage: dmg })
-                }
-                else {
-                    const test = this.state.guy.weapons[i]
-                    if(test) weaponArray.push(this.state.guy.weapons[i])
-                }
             }
             for(let i = 0; i < skills.length; i++) {
-                if(skills[i].childNodes[0].value !== '') {
-                    const word = skills[i].childNodes[0].value
-                    const describe = skills[i].childNodes[1].value
+                    const word = skills[i].childNodes[0].value === '' ? this.state.guy.skills[i].name : skills[i].childNodes[0].value
+                    const describe = skills[i].childNodes[1].value === '' ? this.state.guy.skills[i].des : skills[i].childNodes[1].value
                     skillArray.push({name: word, des: describe})
-                }
-                else {
-                    const test = this.state.guy.skills[i]
-                    if (test) skillArray.push(this.state.guy.skills[i])
-                }
             }
+            for(let i = 0; i < spells.length; i++) {
+                const title = spells[i].childNodes[0].value === '' ? this.state.guy.spells[i].name : spells[i].childNodes[0].value
+                const damage = spells[i].childNodes[0].value === '' ? this.state.guy.spells[i].dmg : spells[i].childNodes[1].value
+                const desc = spells[i].childNodes[0].value === '' ? this.state.guy.spells[i].des : spells[i].childNodes[2].value
+                spellArray.push({name: title, dmg: damage, des: desc})
+            }
+            for(let i = 0; i < slots.length; i++) {
+                const level = slots[i].childNodes[0].innerHTML
+                const number = slots[i].childNodes[1].value === '' ? this.state.guy.spellSlots[i].num : slots[i].childNodes[1].value
+                slotArray.push({lvl: level, num: number, used: 0})
+            }
+
             let name = this.state.guy.name
             let race = this.state.guy.race
             let guyClass = this.state.guy.class
@@ -71,24 +74,28 @@ class EditPage extends Component {
                 name: inputs[0].value === '' ? name :  inputs[0].value,
                 race: inputs[1].value === '' ? race :  inputs[1].value,
                 class: inputs[2].value === '' ? guyClass :  inputs[2].value,
-                level: parseInt(inputs[3].value, 10),
-                prof: parseInt(inputs[4].value, 10),
-                exp: parseInt(inputs[5].value, 10),
+                level: inputs[3].value === '' ? this.state.guy.level : parseInt(inputs[3].value, 10),
+                prof: inputs[4].value === '' ? this.state.guy.prof : parseInt(inputs[4].value, 10),
+                exp: inputs[5].value === '' ? this.state.guy.exp : parseInt(inputs[5].value, 10),
                 stats: statArray,
                 deets: deetArray,
-                ac: parseInt(inputs[12].value, 10),
-                speed: parseInt(inputs[13].value, 10),
-                initiavtive: (inputs[14].value, 10),
-                health: parseInt(inputs[15].value, 10),
+                ac: inputs[12].value === '' ? this.state.guy.ac : parseInt(inputs[12].value, 10),
+                speed: inputs[13].value === '' ? this.state.guy.speed : parseInt(inputs[13].value, 10),
+                initiavtive: inputs[14].value === '' ? this.state.guy.initiavtive : (inputs[14].value, 10),
+                health: inputs[15].value === '' ? this.state.guy.health : parseInt(inputs[15].value, 10),
                 pack: this.state.guy.pack,
                 notes: this.state.guy.notes,
-                weapons: weaponArray,
-                skills: skillArray
+                skills: skillArray,
+                tempHealth : this.state.guy.tempHealth,
+                currentHealth: this.state.guy.currentHealth,
+                spells: spellArray,
+                spellSave: document.getElementById('spell-save').value === '' ? this.state.guy.spellSave : parseInt(document.getElementById('spell-save').value, 10),
+                spellSlots: slotArray
 
             }
             console.log(newGuy)
-            fullArray[this.props.index]
-            localStorage.setItem('characters', JSON.stringify(fullArray))
+            fullArray[this.props.index] = newGuy
+            //localStorage.setItem('characters', JSON.stringify(fullArray))
         } else {
             window.alert('You can not save because you need a newer browser. Use Chrome or Something')
             console.log('No storage for you :/')
@@ -194,6 +201,52 @@ class EditPage extends Component {
         }
         console.log(this.state.guy)
     }
+    addSpell () {
+        const daddy = document.getElementById('spells')
+        const container = document.createElement('div')
+        const input = document.createElement('input')
+        const name = document.createElement('input')
+        const area = document.createElement('textarea')
+        name.placeholder = 'Name'
+        input.placeholder ='Damage'
+        area.placeholder = 'Description'
+        area.classList.add('short-area')
+        container.appendChild(name)
+        container.appendChild(input)
+        container.appendChild(area)
+        container.classList.add('spell-div')
+        daddy.appendChild(container)
+    }
+
+    removeSpell() {
+        const over = document.getElementById('spells')
+        if(over.childNodes.length) {
+            const last = over.childNodes[over.childNodes.length - 1]
+            over.removeChild(last)
+        }
+    }
+
+    addSlot() {
+        const daddy = document.getElementById('spell-slots')
+        const container = document.createElement('div')
+        const input = document.createElement('input')
+        const header = document.createElement('h3')
+        input.placeholder = '# of Slots'
+        header.innerHTML = `Level ${daddy.childNodes.length}:`
+        container.classList.add('spell-slot')
+        container.appendChild(header)
+        container.appendChild(input)
+        daddy.appendChild(container)
+    }
+
+    removeSlot () {
+        const over = document.getElementById('spell-slots')
+        if(over.childNodes.length > 1) {
+            const last = over.childNodes[over.childNodes.length - 1]
+            over.removeChild(last)
+        }
+    }
+
 
     getValue (num) {
 
@@ -242,6 +295,7 @@ class EditPage extends Component {
         }
     
         render () {
+            console.log(this.state.guy)
         return (
             <div>
             <div className ='col-12 full-pad new-char-card'>
@@ -300,6 +354,37 @@ class EditPage extends Component {
                     </div>
                     <button onClick={() => this.addWeapon()}>Add Weapon</button>
                     <button onClick={() => this.removeWeapon()}>Remove Last</button>
+                </div>
+                <div className='center-div'>
+                    <h2>Spells</h2>
+                    <input type='text' id='spell-save' placeholder='Spell Save DC'/>
+                    <div id='spells'>
+                    {this.state.guy.spells.map((spell, itr) => (
+                        <div className='spell-div'>
+                            <input type='text' placeholder={spell.name} />
+                            <input type='text' placeholder={spell.dmg}/>
+                            <textarea placeholder={spell.des} className='short-area'/> 
+                        </div>
+                        )
+                    )}
+                    </div>
+                    <button onClick={()=>this.addSpell()}>Add Spell</button>
+                    <button onClick={()=>this.removeSpell()}>Remove Last</button>
+                </div>
+                <div className='center-div'>
+                    <h2>Spell Slots</h2>
+                    <div id='spell-slots'>
+                    {this.state.guy.spellSlots.map((thing, itr) => (
+                        <div className='spell-slot'>
+                            <h3>{thing.lvl}</h3>
+                            <input type='number' placeholder={thing.num} />
+                        </div>
+                    ))}
+
+                    </div>
+
+                    <button onClick={()=>this.addSlot()}>Add Spell Slot</button>
+                    <button onClick={()=>this.removeSlot()}>Remove Last</button>
                 </div>
                 <div className='center-div'>
                     <div id='skills'>

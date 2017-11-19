@@ -59,7 +59,13 @@ class Stats extends Component {
     }
     componentDidMount () {
         mods = document.querySelectorAll('.mod-val')
-        console.log(this.state.guy)
+        
+        const all = document.querySelectorAll('.main-stats')[1].childNodes
+        for(let i = 0; i < all.length; i++) {
+            if(this.state.guy.deets[i].pro) {
+                all[i].classList.add('good')
+            }
+        }
     }
 
     render () {

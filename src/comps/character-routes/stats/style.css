@@ -55,3 +55,11 @@
     animation-duration: .3s;
     display: none;
 }
+
+.good {
+    color: goldenrod !important;
+}
+
+.good:hover {
+    color: deepskyblue !important;
+}
