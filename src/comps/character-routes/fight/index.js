@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './style.css'
 
 const spells = (stuff, save) => { 
-    if(stuff) {
+    if(stuff.length) {
         return (
             <div id='magic-head-wrapper'>
             <div id='magic-head'><h2>Spells</h2> <span>Save DC: {save}</span></div>
@@ -36,16 +36,11 @@ class Fight extends Component {
             tempHealth: fighter.tempHealth,
             slots: fighter.spellSlots
         }
-    }
-
-    updateHealth() {
-        this.setState({
-            health: document.getElementById('healthy').value
-        })   
+        console.log(this.state.guy)
     }
 
     slots (stuff) {
-        if(stuff) {
+        if(stuff.length) {
             return (
                 <div id='them-slots'>
                     <h2>Spell Slots</h2>
@@ -68,13 +63,17 @@ class Fight extends Component {
         else return null
     }
     
-    updateHealth(num) {
-        const thing = document.querySelectorAll('.slot-input')[num].childNodes[0]
-        console.log(thing)
-        let temp = this.state.slots
-        temp[num].used = thing.value
+    updateHealth() {
+        const thing = document.getElementById('healthy').value
+        let temp = this.state.guy
+        if(thing) {
+            temp.currentHealth = parseInt(thing, 10)
+        }
+        else {
+            temp.currentHealth = 0
+        }
         this.setState({
-            slots: temp
+            guy: temp
         })
     }
 
@@ -87,10 +86,9 @@ class Fight extends Component {
     componentWillUnmount () {
         let toWrite = JSON.parse(localStorage.getItem('characters'))
         toWrite[this.props.index] = this.state.guy
-        toWrite[this.props.index].currentHealth = this.state.health
+        toWrite[this.props.index].currentHealth = this.state.guy.currentHealth
         toWrite[this.props.index].tempHealth = this.state.tempHealth
         toWrite[this.props.index].spellSlots = this.state.slots
-        console.log(toWrite)
         localStorage.setItem('characters', JSON.stringify(toWrite))
     }
 
@@ -100,8 +98,8 @@ class Fight extends Component {
                 <div className='fancies-container'>
                     <div className='fancy-health-div'>
                         <div>
-                            <input type='text' id='healthy' value={this.state.health} onChange={()=>this.updateHealth()}/> 
-                            <span>/ {this.state.guy.health}</span>
+                            <input type='text' id='healthy' value={this.state.guy.currentHealth} onChange={()=>this.updateHealth()}/> 
+                            <span id='current-health'>/ {this.state.guy.health}</span>
                         </div>
                         <span>Health</span>
                     </div>
@@ -109,7 +107,7 @@ class Fight extends Component {
                         <div>
                             <input value={this.state.tempHealth} id='temp-health' onChange={()=>this.updateTemp()} type='text'/> 
                         </div>
-                        <span >Temp HP</span>
+                        <span>Temp HP</span>
                     </div>
                 </div>
                 <div className='fancies-container' id='three-stats'>

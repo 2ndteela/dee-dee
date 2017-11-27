@@ -44,15 +44,20 @@ class NewCharacter extends Component {
                 skillArray.push({name: word, des: describe})
             }
             for(let i = 0; i < spells.length; i++) {
+
                 const title = spells[i].childNodes[0].value
                 const damage = spells[i].childNodes[1].value
-                const desc = spells[i].childNodes[2].value 
-                spellArray.push({name: title, dmg: damage, des: desc})
+                const desc = spells[i].childNodes[2].value
+                if(title && damage && desc && spells.length !== 1) { 
+                    spellArray.push({name: title, dmg: damage, des: desc})
+                }
             }
             for(let i = 0; i < slots.length; i++) {
                 const level = slots[i].childNodes[0].innerHTML
                 const number = slots[i].childNodes[1].value
+                if(level && number) {
                 slotArray.push({lvl: level, num: number, used: 0})
+                }
             }
             const guy = {
                 name: inputs[0].value,

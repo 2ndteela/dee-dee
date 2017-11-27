@@ -24,7 +24,7 @@ class Pack extends Component {
     }
     componentWillUnmount() {
         const all = JSON.parse(localStorage.getItem('characters'))
-        const tempGuy = all[0]
+        const tempGuy = all[this.props.index]
         tempGuy.notes = this.state.notes;
         tempGuy.pack = this.state.pack
         all[0] = tempGuy;

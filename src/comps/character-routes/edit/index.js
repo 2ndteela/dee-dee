@@ -6,6 +6,16 @@ const details = [{attr: 3, name:'Acrobatics'}, {attr: 6, name:'Animal Handling'}
 {attr: 4, name: 'Nature'}, {attr: 6, name:'Perception'}, {attr: 1, name:'Performance'}, {attr: 1, name:'Persuasion'}, {attr: 4, name: 'Religion'}, {attr: 3, name:'Sleight of Hand'},
 {attr: 3, name:'Stealth'}, {attr: 6, name:'Survival'}]
 
+const statNames = ['Charisma', 'Constitution', 'Dexterity', 'Intelligence', 'Strength', 'Wisdom']
+
+function toggleStatPro(e) {
+    console.log(e)
+} 
+
+const proTitle = (word, isBlue) => {
+    if(isBlue) return <div onClick={()=>toggleStatPro(this)} className='proficient'>{word}</div>
+    return <div onClick={()=>toggleStatPro(this)}>{word}</div>
+}
 
 class EditPage extends Component {
     constructor(props) {
@@ -17,16 +27,15 @@ class EditPage extends Component {
     saveCharacter() {
         if (typeof(Storage) !== "undefined") {
             const inputs = document.querySelectorAll('input')
-            const throws = document.querySelectorAll('.throw')
+            const throws = document.querySelectorAll('.inner-throw-box')
             const deets = document.querySelectorAll('.lil-deet')
             const weapons = document.querySelectorAll('.weapon-div')
             const skills = document.querySelectorAll('.skill-area')
             const spells = document.querySelectorAll('.spell-div')
             const slots = document.querySelectorAll('.spell-slot')
-            const password = inputs[inputs.length -1].value
-            let current = localStorage.getItem(password)
+            let current = localStorage.getItem('characters')
             let fullArray = []
-            if(current) fullArray = JSON.parse(current, 10)
+            if(current) fullArray = JSON.parse(current)
             let statArray = []
             let deetArray = []
             let weaponArray = []
@@ -34,20 +43,16 @@ class EditPage extends Component {
             let spellArray = []
             let slotArray = []
             for(let i = 0; i < throws.length; i++) {
-                if(inputs[i+6].value !== '') {
-                    statArray.push({num: parseInt(inputs[i+6].value, 10), pro: throws[i].classList.contains('proficient')})
-                }
-                else {
-                    statArray.push(this.state.guy.stats[i])
-                }
+                statArray.push({num: parseInt(throws[i].childNodes[1].innerHTML, 10), pro:true})
             }
             for(let i = 0; i < deets.length; i++) {
-                deetArray.push({num: parseInt(deets[i].childNodes[1].innerHTML, 10), pro: deets[i].classList.contains('proficient') })
+                const val = deets[i].childNodes[1].innerHTML === '' ? this.state.guy.deets[i] : deets[i].childNodes[1].innerHTML
+                deetArray.push({num: parseInt(val, 10), pro: deets[i].classList.contains('proficient') })
             }
             for(let i = 0; i < weapons.length; i++) {
                     const title = weapons[i].childNodes[0].value === '' ? this.state.guy.weapons[i].name : weapons[i].childNodes[0].value
-                    const bns = weapons[i].childNodes[1].value === '' ? this.state.guy.weapons[i].bns : weapons[i].childNodes[1].value
-                    const dmg = weapons[i].childNodes[0].value === '' ? this.state.guy.weapons[i].dmg : weapons[i].childNodes[2].value
+                    const bns = weapons[i].childNodes[1].value === '' ? this.state.guy.weapons[i].bonus : weapons[i].childNodes[1].value
+                    const dmg = weapons[i].childNodes[2].value === '' ? this.state.guy.weapons[i].damage : weapons[i].childNodes[2].value
                     weaponArray.push({name: title, bonus: bns, damage: dmg })
             }
             for(let i = 0; i < skills.length; i++) {
@@ -79,10 +84,10 @@ class EditPage extends Component {
                 exp: inputs[5].value === '' ? this.state.guy.exp : parseInt(inputs[5].value, 10),
                 stats: statArray,
                 deets: deetArray,
-                ac: inputs[12].value === '' ? this.state.guy.ac : parseInt(inputs[12].value, 10),
-                speed: inputs[13].value === '' ? this.state.guy.speed : parseInt(inputs[13].value, 10),
-                initiavtive: inputs[14].value === '' ? this.state.guy.initiavtive : (inputs[14].value, 10),
-                health: inputs[15].value === '' ? this.state.guy.health : parseInt(inputs[15].value, 10),
+                ac: inputs[6].value === '' ? this.state.guy.ac : parseInt(inputs[6].value, 10),
+                speed: inputs[7].value === '' ? this.state.guy.speed : parseInt(inputs[7].value, 10),
+                initiavtive: inputs[8].value === '' ? this.state.guy.initiavtive : (inputs[8].value, 10),
+                health: inputs[9].value === '' ? this.state.guy.health : parseInt(inputs[9].value, 10),
                 pack: this.state.guy.pack,
                 notes: this.state.guy.notes,
                 skills: skillArray,
@@ -90,12 +95,13 @@ class EditPage extends Component {
                 currentHealth: this.state.guy.currentHealth,
                 spells: spellArray,
                 spellSave: document.getElementById('spell-save').value === '' ? this.state.guy.spellSave : parseInt(document.getElementById('spell-save').value, 10),
-                spellSlots: slotArray
+                spellSlots: slotArray,
+                weapons: weaponArray
 
             }
-            console.log(newGuy)
+            console.log(fullArray)
             fullArray[this.props.index] = newGuy
-            //localStorage.setItem('characters', JSON.stringify(fullArray))
+            localStorage.setItem('characters', JSON.stringify(fullArray))
         } else {
             window.alert('You can not save because you need a newer browser. Use Chrome or Something')
             console.log('No storage for you :/')
@@ -246,45 +252,42 @@ class EditPage extends Component {
             over.removeChild(last)
         }
     }
-
-
-    getValue (num) {
-
-        const displays = document.querySelectorAll('.deet-val')
-        const stats = document.getElementById('stats')
-        const numbas = stats.querySelectorAll('input')
-        let prof = document.getElementById('prof').value
-        const throws = document.querySelectorAll('.throw-num')
-            if(isNaN(prof)) prof = 0
-            for(let i = 0; i < displays.length; i++) {
-                let temp = Math.floor((parseInt(numbas[num-1].value, 10) - 10) /2)
-                const withPro = parseInt(temp, 10) + parseInt(prof, 10)
-                if(details[i].attr === num) {
-                    if(numbas[num-1].value === '') {
-                        displays[i].innerHTML = 0
-                        throws[num-1].innerHTML = 0
-                    }
-                    else {
-                        displays[i].innerHTML = temp 
-                        if(displays[i].parentElement.classList.contains('proficient')) {
-
-                            displays[i].innerHTML = withPro
-                        }
-                    }
-                }
-                throws[num-1].innerHTML = temp
-                if(throws[num-1].parentElement.classList.contains('proficient') || this.state.guy.stats[num-1].pro ) {
-                    throws[num-1].innerHTML = withPro
-                    throws[num-1].parentElement.classList.add('proficient')
+    incValue(idx) {
+        let tempGuy = this.state.guy
+        let val = tempGuy.stats[idx].num
+        val++
+        tempGuy.stats[idx].num = val
+        for(let i = 0; i < details.length; i++) {
+            if(idx+1 === details[i].attr) {
+                tempGuy.deets[i].num = Math.floor((val - 10) /2)
+                if(tempGuy.deets[i].pro) {
+                    tempGuy.deets[i].num += parseInt(tempGuy.prof, 10)
                 }
             }
         }
-        componentDidMount () {
-            console.log(this.props.index)
+        this.setState({
+            guy: tempGuy
+        })
+    }
+    decValue(idx) {
+        let tempGuy = this.state.guy
+        let val = tempGuy.stats[idx].num
+        val--
+        tempGuy.stats[idx].num = val
+        for(let i = 0; i < details.length; i++) {
+            if(idx+1 === details[i].attr) {
+                tempGuy.deets[i].num = Math.floor((val - 10) /2)
+                if(tempGuy.deets[i].pro) {
+                    tempGuy.deets[i].num += parseInt(tempGuy.prof, 10)
+                }
+            }
         }
+        this.setState({
+            guy: tempGuy
+        })
+    }
 
         checkDeet (thing) {
-            console.log(thing)
             if(thing.pro) {
                 return <span className='proficient'>{thing.num}</span>
             }
@@ -308,29 +311,22 @@ class EditPage extends Component {
                     <input type='number' placeholder={this.state.guy.prof} id='prof' className='half-wit first'/>
                     <input type='number' placeholder={this.state.guy.exp} className='half-wit'/>
                 </div>
-                <div id='stats'>
+                <div id='edit-stats'>
                     <h2>Stats</h2>
-                    <input type='number' placeholder={this.state.guy.stats[0].num} className='half-wit first' onChange={() => this.getValue(1)}/>
-                    <input type='number' placeholder={this.state.guy.stats[1].num} className='half-wit' onChange={() => this.getValue(2)}/>
-                    <input type='number' placeholder={this.state.guy.stats[2].num} className='half-wit first' onChange={() => this.getValue(3)}/>
-                    <input type='number' placeholder={this.state.guy.stats[3].num} className='half-wit'onChange={() => this.getValue(4)}/>
-                    <input type='number' placeholder={this.state.guy.stats[4].num} className='half-wit first' onChange={() => this.getValue(5)}/>
-                    <input type='number' placeholder={this.state.guy.stats[5].num} className='half-wit' onChange={() => this.getValue(6)}/>
+                    {this.state.guy.stats.map((thing, itr) => (
+                    <div className='throw-box'>
+                        {proTitle(statNames[itr], this.state.guy.stats[itr].pro)}
+                        <div className='inner-throw-box'>
+                            <button onClick={()=> this.incValue(itr)}>+</button>
+                            <span>{this.state.guy.stats[itr].num}</span>
+                            <button onClick={()=> this.decValue(itr)}>-</button>
+                        </div>
+                    </div>
+                    ))}
                     <input type='number' placeholder={this.state.guy.ac} className='third-wit' />
                     <input type='number' placeholder={this.state.guy.speed} className='third-wit middle' />
                     <input type='number'placeholder={this.state.guy.initiavtive} className='third-wit' />
                     <input type='number' placeholder={this.state.guy.health} />
-                </div>
-                <div>
-                    <h2>Saving Throws</h2>
-                    <div >
-                        <div className='throw half-wit first' onClick={() => this.addProThrow(0)}><span>Charisma</span><span className='throw-num'>0</span></div>
-                        <div className='throw half-wit' onClick={() => this.addProThrow(1)} ><span>Constitution</span><span className='throw-num'>0</span></div>
-                        <div className='throw half-wit first' onClick={() => this.addProThrow(2)}><span>Dexterity</span><span className='throw-num'>0</span></div>
-                        <div className='throw half-wit' onClick={() => this.addProThrow(3)}><span>Intelligence</span><span className='throw-num'>0</span></div>
-                        <div className='throw half-wit first' onClick={() => this.addProThrow(4)}><span>Strength</span><span className='throw-num'>0</span></div>
-                        <div className='throw half-wit' onClick={() => this.addProThrow(5)}><span>Wisdom</span><span className='throw-num'>0</span></div>
-                    </div>
                 </div>
                 <div>
                     <h2>Detail Stats</h2>
@@ -360,7 +356,7 @@ class EditPage extends Component {
                     <input type='text' id='spell-save' placeholder='Spell Save DC'/>
                     <div id='spells'>
                     {this.state.guy.spells.map((spell, itr) => (
-                        <div className='spell-div'>
+                        <div key={spell.name} className='spell-div'>
                             <input type='text' placeholder={spell.name} />
                             <input type='text' placeholder={spell.dmg}/>
                             <textarea placeholder={spell.des} className='short-area'/> 
@@ -375,7 +371,7 @@ class EditPage extends Component {
                     <h2>Spell Slots</h2>
                     <div id='spell-slots'>
                     {this.state.guy.spellSlots.map((thing, itr) => (
-                        <div className='spell-slot'>
+                        <div key={thing.lvl+'a'} className='spell-slot'>
                             <h3>{thing.lvl}</h3>
                             <input type='number' placeholder={thing.num} />
                         </div>

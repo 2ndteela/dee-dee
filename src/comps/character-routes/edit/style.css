@@ -1,0 +1,32 @@
+.throw-box {
+    flex-direction: column;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    font-size: 18px;
+    margin-bottom: 4px !important;
+    padding: 4px;
+    width: 48% !important;
+}
+
+.throw-box div {
+    margin-bottom: 2px;
+    justify-content: flex-start;
+}
+
+.throw-box span {
+    font-size: 36px;
+}
+
+.throw-box button {
+    border:  none;
+    border-bottom: 1px solid white;
+}
+
+.inner-throw-box {
+    justify-content: space-between !important;
+    margin: 0px !important;
+}
+
+#edit-stats {
+    justify-content: space-between;
+}

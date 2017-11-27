@@ -6,6 +6,11 @@ function clear() {
     localStorage.clear()
 }
 
+function print() {
+    const stuff = JSON.parse(localStorage.getItem('characters'))
+    console.log(stuff)
+}
+
 class Home extends Component {
     constructor(props) {
         super(props)
@@ -23,6 +28,7 @@ class Home extends Component {
             <div className='line col-11'></div>
             <NavLink id='new-guy' to='/character-new'>Create New Charater</NavLink>
         </div>
+        <button onClick={()=> print()}>Print Cache</button>
         <button onClick={()=> clear()}>Clear Stash</button>
     </div>
     )

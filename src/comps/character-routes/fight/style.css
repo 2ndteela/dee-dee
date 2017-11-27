@@ -25,7 +25,6 @@
     font-size: 24px;
     font-family: monospace;
     padding: 0px 4px;
-    width: 60%;
 }
 
 .fancy-health-div {
@@ -36,6 +35,15 @@
 .fancy-health-div div {
     border-bottom: 1px solid white;
     margin-bottom: 2px;
+    width: 100%;
+}
+
+.fancy-health-div * {
+    width: 50%;
+}
+
+.fancy-health-div span {
+    width: 100%;
 }
 
 .fancies-container {
@@ -46,6 +54,14 @@
     margin-bottom: 16px;
 }
 
+#current-health {
+    width: initial !important;
+}
+
+#temp-health {
+    width: 100% !important;
+    text-align: center !important;
+}
 
 #three-stats div {
     width: 30vw;
