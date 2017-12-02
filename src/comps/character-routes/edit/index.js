@@ -8,13 +8,9 @@ const details = [{attr: 3, name:'Acrobatics'}, {attr: 6, name:'Animal Handling'}
 
 const statNames = ['Charisma', 'Constitution', 'Dexterity', 'Intelligence', 'Strength', 'Wisdom']
 
-function toggleStatPro(e) {
-    console.log(e)
-} 
-
-const proTitle = (word, isBlue) => {
-    if(isBlue) return <div onClick={()=>toggleStatPro(this)} className='proficient'>{word}</div>
-    return <div onClick={()=>toggleStatPro(this)}>{word}</div>
+const proTitle = (word, isBlue, callback, idx) => {
+    if(isBlue) return <div onClick={()=>callback(idx)} className='proficient'>{word}</div>
+    return <div onClick={()=>callback(idx)}>{word}</div>
 }
 
 class EditPage extends Component {
@@ -23,12 +19,11 @@ class EditPage extends Component {
         this.state = {
             guy: JSON.parse(localStorage.getItem('characters'))[this.props.index]
         }
+        this.toggleProStat = this.toggleProStat.bind(this)
     }
     saveCharacter() {
         if (typeof(Storage) !== "undefined") {
             const inputs = document.querySelectorAll('input')
-            const throws = document.querySelectorAll('.inner-throw-box')
-            const deets = document.querySelectorAll('.lil-deet')
             const weapons = document.querySelectorAll('.weapon-div')
             const skills = document.querySelectorAll('.skill-area')
             const spells = document.querySelectorAll('.spell-div')
@@ -36,19 +31,12 @@ class EditPage extends Component {
             let current = localStorage.getItem('characters')
             let fullArray = []
             if(current) fullArray = JSON.parse(current)
-            let statArray = []
-            let deetArray = []
+            let statArray = this.state.guy.stats
+            let deetArray = this.state.guy.deets
             let weaponArray = []
             let skillArray = []
             let spellArray = []
             let slotArray = []
-            for(let i = 0; i < throws.length; i++) {
-                statArray.push({num: parseInt(throws[i].childNodes[1].innerHTML, 10), pro:true})
-            }
-            for(let i = 0; i < deets.length; i++) {
-                const val = deets[i].childNodes[1].innerHTML === '' ? this.state.guy.deets[i] : deets[i].childNodes[1].innerHTML
-                deetArray.push({num: parseInt(val, 10), pro: deets[i].classList.contains('proficient') })
-            }
             for(let i = 0; i < weapons.length; i++) {
                     const title = weapons[i].childNodes[0].value === '' ? this.state.guy.weapons[i].name : weapons[i].childNodes[0].value
                     const bns = weapons[i].childNodes[1].value === '' ? this.state.guy.weapons[i].bonus : weapons[i].childNodes[1].value
@@ -176,7 +164,7 @@ class EditPage extends Component {
     }
     addPro(num) {
         const displays = document.querySelectorAll('.deet-val')
-        const prof = document.getElementById('prof').value
+        const prof = document.getElementById('prof').value === '' ? parseInt(this.state.guy.prof, 10) : parseInt(document.getElementById('prof').value, 10)
         if(prof) {
             let temp = parseInt(displays[num].innerHTML, 10)
             const test = displays[num].parentElement.classList.contains('proficient')
@@ -197,9 +185,10 @@ class EditPage extends Component {
                 } 
                 displays[num].innerHTML = temp
                 displays[num].parentElement.classList.remove('proficient')
+                displays[num].classList.remove('proficient')
                 const tempGuy = this.state.guy
                 tempGuy.deets[num].num = temp;
-                tempGuy.deets[num].pro = true;
+                tempGuy.deets[num].pro = false;
                 this.setState({
                     guy: tempGuy
                 })
@@ -289,13 +278,27 @@ class EditPage extends Component {
 
         checkDeet (thing) {
             if(thing.pro) {
-                return <span className='proficient'>{thing.num}</span>
+                return <span className='proficient deet-val'>{thing.num}</span>
             }
             
             else {
-                return <span>{thing.num}</span>
+                return <span className='deet-val'>{thing.num}</span>
             }
         }
+    toggleProStat(itr) {
+        
+        const list = document.querySelectorAll('.throw-box')
+        const test = this.state.guy.stats[itr].pro
+        if(test) list[itr].childNodes[0].classList.add('proficient')
+        else list[itr].childNodes[0].classList.remove('proficient')
+        let copy = this.state.guy
+        copy.stats[itr].pro = !test
+        console.log(!test)
+
+        this.setState({
+            guy: copy
+        })
+    }
     
         render () {
             console.log(this.state.guy)
@@ -314,8 +317,8 @@ class EditPage extends Component {
                 <div id='edit-stats'>
                     <h2>Stats</h2>
                     {this.state.guy.stats.map((thing, itr) => (
-                    <div className='throw-box'>
-                        {proTitle(statNames[itr], this.state.guy.stats[itr].pro)}
+                    <div className='throw-box' key={itr + 'c'}>
+                        {proTitle(statNames[itr], this.state.guy.stats[itr].pro, this.toggleProStat, itr)}
                         <div className='inner-throw-box'>
                             <button onClick={()=> this.incValue(itr)}>+</button>
                             <span>{this.state.guy.stats[itr].num}</span>
@@ -332,7 +335,7 @@ class EditPage extends Component {
                     <h2>Detail Stats</h2>
                     {details.map((thing, itr)=>{
                         return (
-                            <div className='lil-deet' key={thing.name} onClick={()=> this.addPro(itr)}><span>{thing.name}: </span><span className='deet-val'>{this.checkDeet(this.state.guy.deets[itr])}</span></div>
+                            <div className='lil-deet' key={thing.name} onClick={()=> this.addPro(itr)}><span>{thing.name}: </span>{this.checkDeet(this.state.guy.deets[itr])}</div>
                         )
                     }
                 )}

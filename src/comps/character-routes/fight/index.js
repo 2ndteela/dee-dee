@@ -47,10 +47,10 @@ class Fight extends Component {
                     <div id='slot-list'>
                     {stuff.map((thing, itr) => {
                         return (
-                        <div key={itr*5}>
+                        <div key={itr + 'd'}>
                             <h3>{thing.lvl}</h3>
                             <span className='slot-input'>
-                                <input value ={thing.used} onChange={()=>this.updateHealth(itr)} />
+                                <input value ={thing.used} onChange={()=>this.updateSlot(itr)} />
                                 <span>/ {thing.num}</span>
                             </span>
                         </div>
@@ -77,6 +77,17 @@ class Fight extends Component {
         })
     }
 
+    updateSlot(itr) {
+        const tempSlot = document.querySelectorAll('.slot-input')[itr].childNodes[0]
+        const tempVal = tempSlot.value
+        console.log(tempVal)
+        const temp = this.state.guy
+        temp.spellSlots[itr].used = tempVal
+        this.setState({
+            guy: temp
+    })
+    }
+ 
     updateTemp() {
         this.setState({
             tempHealth: document.getElementById('temp-health').value

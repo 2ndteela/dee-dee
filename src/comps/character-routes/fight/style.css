@@ -146,25 +146,34 @@
 
 #them-slots {
     flex-direction: column !important;
+    width: 100vw;
+    padding: 16px;
+}
+
+#them-slots h2 {
+    border-bottom: 1px solid white;
 }
 
 #slot-list {
-    border-top: 1px solid white;
     padding-top: 8px;
     flex-direction: column !important;
+    width: 100vw;
+    padding: 16px;
 }
 
 .slot-input {
     flex-direction: row !important;
 }
 
-#slot-list h3 {
-    width: 300px;
+#slot-list input {
+    width: 100px;
 }
+
 
 #slot-list div {
     justify-content: space-between !important;
     margin-bottom: 4px;
+    width: 100%;
 }
 
 #slot-list div h3 {
