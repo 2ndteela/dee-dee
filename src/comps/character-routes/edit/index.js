@@ -334,9 +334,16 @@ class EditPage extends Component {
                 <div>
                     <h2>Detail Stats</h2>
                     {details.map((thing, itr)=>{
+                        console.log(thing)
+                        if(!this.state.guy.deets[itr].pro) 
                         return (
                             <div className='lil-deet' key={thing.name} onClick={()=> this.addPro(itr)}><span>{thing.name}: </span>{this.checkDeet(this.state.guy.deets[itr])}</div>
                         )
+                        else {
+                            return (
+                                <div className='lil-deet proficient' key={thing.name} onClick={()=> this.addPro(itr)}><span>{thing.name}: </span>{this.checkDeet(this.state.guy.deets[itr])}</div>
+                            )
+                        }
                     }
                 )}
                 </div>
