@@ -6,6 +6,7 @@ import Stats from '../character-routes/stats/index'
 import Pack from '../character-routes/pack/index'
 import Fight from "../character-routes/fight/index"
 import EditPage from '../character-routes/edit/index'
+import Roller from '../character-routes/roller/index'
 
 let indexNum
 
@@ -42,10 +43,21 @@ class ViewCharater extends Component {
                         <Route path = '/character/:id/pack' component={packCaller} />
                         <Route path = '/character/:id/fight' component={fightCaller} />
                         <Route path = '/character/:id/edit' component={editCaller} />
+                        <Route path = '/character/:id/roll' component={Roller} />
                     </div>
                     <div id="character-tabs">
                         <NavLink to={`/character/${this.props.match.params.index}`}>Stats</NavLink>
                         <NavLink to={`/character/${this.props.match.params.index}/pack`}>Pack</NavLink>
+                        <NavLink to={`/character/${this.props.match.params.index}/roll`}>
+                            <div id='roll-button'>
+                                <div className='dot'></div>
+                                <div className='dot'></div>
+                                <div className='dot'></div>
+                                <div className='dot'></div>
+                                <div className='dot'></div>
+                                <div className='dot'></div>
+                            </div>
+                        </NavLink>
                         <NavLink to={`/character/${this.props.match.params.index}/fight`}>Fight</NavLink>
                         <NavLink to={`/character/${this.props.match.params.index}/edit`}>Edit</NavLink>
                     </div>

@@ -1,0 +1,64 @@
+#roll-container{
+    justify-content: space-between;
+    width: 100vw;
+    height: 83vh;
+}
+
+#roll-result {
+    width: 100vw;
+    height: 28vh;
+    justify-content: center;
+    font-size: 84px;
+    position: relative;
+    top: -16px;
+    background-color: black;
+}
+
+#roll-numbers-container {
+    flex-direction: row;
+    font-size: 36px;
+    color: white;
+}
+
+#clear-nums {
+    position: relative;
+    top: -1vh;
+}
+
+#roll-numbers {
+    position: relative;
+    width: 84vw;
+    height: 5vh;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 0 8px;
+    position: relative;
+    top: -1vh;
+}
+
+
+#roll-buttons {
+    height: 50vh;
+    width: 100vw;
+    border-top: 1px solid white;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+}
+
+#roll-buttons div {
+    height: 12.5vh;
+    width: 33vw;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+}
+
+#indi-rolls {
+    font-size: 24px;
+    flex-direction: row;
+}
+#indi-rolls span {
+    margin: 5px;
+}

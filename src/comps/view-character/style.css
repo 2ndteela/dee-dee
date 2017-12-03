@@ -29,3 +29,23 @@
     border: 1px solid white;
     padding: 4px 8px;
 }
+
+#roll-button {
+    width: 30px;
+    height: 30px;
+    border: 2px solid white;
+    border-radius: 5px;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.dot {
+    height: 4px;
+    width: 4px;
+    margin: 1.5px;
+    border: 1px solid white;
+    border-radius: 3px;
+    background-color: white;
+}

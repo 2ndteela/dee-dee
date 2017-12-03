@@ -28,7 +28,6 @@ class Home extends Component {
             <div className='line col-11'></div>
             <NavLink id='new-guy' to='/character-new'>Create New Charater</NavLink>
         </div>
-        <button onClick={()=> print()}>Print Cache</button>
         <button onClick={()=> clear()}>Clear Stash</button>
     </div>
     )
