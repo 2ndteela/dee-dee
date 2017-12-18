@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './style.css'
+import store from '../../../store'
 
 const details = [{attr: 3, name:'Acrobatics'}, {attr: 6, name:'Animal Handling'}, {attr: 4, name:'Arcana'}, {attr: 5, name:'Athletics'}, {attr: 1, name:'Deception'},
 { attr: 4, name:'History'}, {attr: 6, name:'Insight'}, {attr: 1, name: 'Intimidation'}, {attr: 4, name: 'Investigation'}, {attr: 6, name :'Medicine'},
@@ -17,7 +18,7 @@ class EditPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            guy: JSON.parse(localStorage.getItem('characters'))[this.props.index]
+            guy: store.getState()
         }
         this.toggleProStat = this.toggleProStat.bind(this)
     }
@@ -293,7 +294,6 @@ class EditPage extends Component {
         else list[itr].childNodes[0].classList.remove('proficient')
         let copy = this.state.guy
         copy.stats[itr].pro = !test
-        console.log(!test)
 
         this.setState({
             guy: copy
@@ -301,9 +301,8 @@ class EditPage extends Component {
     }
     
         render () {
-            console.log(this.state.guy)
         return (
-            <div>
+            <div id='master-edit'>
             <div className ='col-12 full-pad new-char-card'>
                 <div>
                     <h2>Basic Info</h2>
@@ -334,7 +333,6 @@ class EditPage extends Component {
                 <div>
                     <h2>Detail Stats</h2>
                     {details.map((thing, itr)=>{
-                        console.log(thing)
                         if(!this.state.guy.deets[itr].pro) 
                         return (
                             <div className='lil-deet' key={thing.name} onClick={()=> this.addPro(itr)}><span>{thing.name}: </span>{this.checkDeet(this.state.guy.deets[itr])}</div>

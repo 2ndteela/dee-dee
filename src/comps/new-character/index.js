@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import firebase from '../../fire'
 import './style.css'
 
 const details = [{attr: 3, name:'Acrobatics'}, {attr: 6, name:'Animal Handling'}, {attr: 4, name:'Arcana'}, {attr: 5, name:'Athletics'}, {attr: 1, name:'Deception'},
@@ -8,8 +9,8 @@ const details = [{attr: 3, name:'Acrobatics'}, {attr: 6, name:'Animal Handling'}
 
 class NewCharacter extends Component {
     saveCharacter() {
-        if (typeof(Storage) !== "undefined") {
-            const inputs = document.querySelectorAll('input')
+        const inputs = document.querySelectorAll('input')
+        if (inputs[inputs.length-1].value !== '') {
             const throws = document.querySelectorAll('.throw')
             const deets = document.querySelectorAll('.lil-deet')
             const areas = document.querySelectorAll('textarea')
@@ -80,15 +81,16 @@ class NewCharacter extends Component {
                 currentHealth: parseInt(inputs[15].value, 10),
                 spells: spellArray,
                 spellSave: parseInt(document.getElementById('spell-save').value, 10),
-                spellSlots: slotArray
+                spellSlots: slotArray,
+                password: inputs[inputs.length-1].value
 
             }
             console.log(guy)
             fullArray.push(guy)
             console.log(fullArray)
-            localStorage.setItem('characters', JSON.stringify(fullArray))
+            firebase.database().ref('characters').push( guy )
         } else {
-            console.log('No storage for you :/')
+            alert('Please put in a password')
         }
     }
     addSkill() {
@@ -254,7 +256,7 @@ class NewCharacter extends Component {
         }
     render () {
         return (
-        <div>
+        <div id='master-edit-page'>
             <h1 className='header'>New Character</h1>
             <div className ='col-12 full-pad new-char-card'>
                 <div>
@@ -355,6 +357,7 @@ class NewCharacter extends Component {
                     <h2>Notes</h2>
                     <textarea></textarea>
                 </div>
+                <input placeholder='Password'/>
                 <button onClick={()=>this.saveCharacter()}>Save Character</button>
             </div>
         </div>

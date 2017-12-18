@@ -186,3 +186,115 @@
     align-items: flex-end;
     justify-content: flex-end;
 }
+
+@media screen and (min-width: 768px) {
+    #fight-container {
+        border: 1px solid white;
+        width: 400px;
+        padding: 0 16px;
+        font-size: 24px;
+        padding-top: 16px;
+        margin: 16px; 
+        margin-bottom: 16px;
+    }
+    #slot-list {
+        padding-top: 8px;
+        flex-direction: column !important;
+        width: 400px;
+        padding: 16px;
+    }
+    .fancy-health-div {
+        flex-direction: column !important;
+        width: 160px;
+    }
+    .fancies-container {
+        width: 400px;
+        padding: 0 16px;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: 16px;
+    }
+    #three-stats div {
+        width: 120px;
+        flex-direction: column !important;
+    }
+    
+    #three-stats div p {
+        border-bottom: 1px solid white;
+        width: 120px;
+    }
+    
+    .fight-list {
+        flex-direction: column !important;
+        border-top: 1px solid white;
+        padding-top: 4px;
+        width: 368px;
+        margin-bottom: 16px;
+    
+    }
+
+    .fight-list div {
+        width: 400px;
+        padding: 4px 16px;
+        justify-content: flex-start !important;
+    
+    }
+    
+    .weapon-name {
+        min-width: 160px;
+        justify-content: flex-start;
+        align-items: flex-start;
+        text-align: left;
+    }
+    
+    
+    .weapon-damage {
+        min-width: 180px;
+        align-items: flex-end;
+        text-align: right;
+    }   
+    
+    .list-header {
+        font-family: sans-serif;
+    }
+    
+    .list-header .weapon-damage {
+        min-width: 152px;
+    }
+
+    .spell-deets {
+        flex-direction: column !important;
+        margin-top: 16px;
+        width: 368px !important;
+        align-items: flex-start;
+    }
+    
+    #magic-head {
+        width: 368px;
+        justify-content: space-between;
+    }
+    
+    #magic-head span {
+        width: 200px;
+    }
+    
+    #them-slots {
+        flex-direction: column !important;
+        width: 400px;
+        padding: 16px;
+    }
+    
+    #slot-list {
+        padding-top: 8px;
+        flex-direction: column !important;
+        width: 400px;
+        padding: 16px;
+    }
+    
+    #magic-bois {
+        flex-direction: column;
+        flex-direction: column !important;
+        border-top: 1px solid white;
+        width: 368px;
+    }
+}

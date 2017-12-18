@@ -1,39 +1,51 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import './style.css'
+import firebase from '../../fire'
+import {withRouter} from 'react-router-dom'
+import store from '../../store'
 
 class Selector extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            list: null
+            list: []
         }
+        this.getParam = this.getParam.bind(this)
+    }
+
+    getParam() {
+        return this.props.match.params.password
     }
 
     componentDidMount() {
-        const array = localStorage.getItem('characters')
-        if(array) {
-            const useful = JSON.parse(array)
-            this.setState({
-                list: useful
-            })
-            console.log(useful)
+        let fireRef = firebase.database().ref('characters')
+        fireRef.orderByChild('password').equalTo(this.getParam()).on('child_added', snapshot => {
+          let temp = this.state.list
+          temp.push(snapshot.val())
+          temp[temp.length-1]._id = snapshot.key
+          this.setState({
+              list: temp
+          })  
+        })
+    }
+    goto(itr) {
+        const toSend = {
+            type: 'SET_CHAR',
+            payload: this.state.list[itr]
         }
-        else {
-            this.setState.list = null
-        }
-
+        store.dispatch(toSend)
+        this.props.history.push(`/character`)
     }
 
     render() {
-        if(this.state.list) {
+        if(this.state.list.length) {
             return(
                 <div>
                     <h1 className='header'>Charaters</h1>
                     <div id='select-list'>
                         {this.state.list.map((data, itr) => {
-                            console.log(data)
-                            return <NavLink key={itr} className='selectable' to={`/character/${itr}`} ><span>{data.name}</span><span>{data.race} {data.class}</span></NavLink>
+                            return <button key={itr} onClick={()=>this.goto(itr)} className='selectable'><span>{data.name}</span><span>{data.race} {data.class}</span></button>
                         })}
                     </div>
                 </div>
@@ -45,4 +57,4 @@ class Selector extends Component {
     }
 }
 
-export default Selector
+export default withRouter(Selector)

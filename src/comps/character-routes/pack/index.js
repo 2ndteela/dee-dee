@@ -1,34 +1,47 @@
 import React, { Component } from 'react'
 import './style.css'
+import store from '../../../store'
+import firebase from '../../../fire'
 
 class Pack extends Component {
     constructor(props) {
         super(props) 
         this.state = {
-            pack: JSON.parse(localStorage.getItem('characters'))[this.props.index].pack,
-            notes: JSON.parse(localStorage.getItem('characters'))[this.props.index].notes,
-            guy: JSON.parse(localStorage.getItem('characters'))[this.props.index]
+            pack: store.getState().pack,
+            notes: store.getState().notes,
+            guy: store.getState()
         }
     }
     type(event, which) {
+        let toSend = {}
         if(which) {
             this.setState({
                 pack: event.target.value
             })
+            toSend = {
+                type: 'PACK',
+                payload: this.state.pack
+            }
         }
         else {
             this.setState({
                 notes: event.target.value
             })
+            toSend = {
+                type: 'NOTES',
+                payload: this.state.notes
+            }
         }
+        store.dispatch(toSend)
     }
     componentWillUnmount() {
-        const all = JSON.parse(localStorage.getItem('characters'))
-        const tempGuy = all[this.props.index]
-        tempGuy.notes = this.state.notes;
-        tempGuy.pack = this.state.pack
-        all[0] = tempGuy;
-        localStorage.setItem('characters', JSON.stringify(all))
+       var db = firebase.database()
+       db.ref("characters").equalTo(this.state.guy._id).on("child_added", function(snapshot) {
+           console.log(snapshot.val())
+           snapshot.ref.update({pack: this.state.pack})
+       })
+       db.ref(this.state.guy._id).update({notes: this.state.notes})
+
     }
     render () {
         return(

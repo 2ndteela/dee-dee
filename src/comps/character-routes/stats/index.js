@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './style.css'
+import store from '../../../store'
 
 let mods
 
@@ -9,7 +10,7 @@ class Stats extends Component {
         this.state = {
             res: 20,
             show: false,
-            guy: JSON.parse(localStorage.getItem('characters'))[this.props.index]
+            guy: store.getState()
         }
     }
     toggleRes(thing) {

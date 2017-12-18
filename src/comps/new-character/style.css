@@ -115,3 +115,9 @@
 .spell-slot h3 {
     font-size: 24px;
 }
+
+@media screen and (min-width: 768px ) {
+    #master-edit-page .col-12 {
+        width: 600px !important;
+    }
+}

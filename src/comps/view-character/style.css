@@ -49,3 +49,10 @@
     border-radius: 3px;
     background-color: white;
 }
+
+#big-columns {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}

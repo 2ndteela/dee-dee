@@ -63,3 +63,58 @@
 .good:hover {
     color: deepskyblue !important;
 }
+
+@media screen and (min-width: 768px ) {
+    #stats-body {
+        width: 400px;
+        margin: 16px;
+        border: 1px solid white;
+        padding-top: 16px;
+    }
+    #stats-body h1 {
+        width: 400px;
+        padding: 0 16px;
+        align-items: flex-start;
+        font-size: 36px;
+    }
+    
+    .main-stats {
+        border-top: 1px solid white;
+        margin-bottom: 16px;
+        width: 368px;
+    }
+    
+    .main-stats div {
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        font-size: 24px;
+        padding: 8px;
+        transition: .3s;
+    }
+    
+    .main-stats span {
+        flex-direction: row;
+    }
+    
+    .main-stats div:hover {
+        color: deepskyblue;
+    }
+    
+    #throw-result {
+        width: 80vw;
+        height: 40vh;
+        background-color: black;
+        border: 1px solid white;
+        position: fixed;
+        top: 20vh;
+        left: 10vw;
+        justify-content: center;
+        font-size: 128px;
+        transition: .3s;
+        animation: spin;
+        animation-duration: .3s;
+        display: none;
+    }
+    
+}

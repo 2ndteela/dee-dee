@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './style.css'
+import store from '../../../store'
 
 const spells = (stuff, save) => { 
     if(stuff.length) {
@@ -29,7 +30,7 @@ const spells = (stuff, save) => {
 class Fight extends Component {
     constructor(props) {
         super(props)
-        const fighter = JSON.parse(localStorage.getItem('characters'))[this.props.index]
+        const fighter = store.getState()
         this.state = {
             guy : fighter,
             health: fighter.currentHealth,

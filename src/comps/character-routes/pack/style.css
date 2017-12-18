@@ -26,3 +26,38 @@
     align-items: flex-start;
     padding-bottom: 8px;
 }
+
+@media screen and (min-width: 768px) {
+    #pack-div {
+        margin-top: 16px;
+        border: 1px solid white;
+        width: 400px;
+        padding: 0 16px;
+        padding-top: 16px;
+    }
+    
+    #pack-div textarea {
+        width: 368px;
+        margin-bottom: 16px;
+    }
+    
+    #pack-div h1 {
+        width: 400px;
+        padding: 0px 16px;
+        text-align: left;
+        align-items: flex-start;
+    }
+    
+    .skill-div {
+        border-top: 1px solid white;
+        padding: 16px 0;
+        width: 368px;
+    }
+    
+    .skill-div div {
+        width: 368px;
+        align-items: flex-start;
+        padding-bottom: 8px;
+    }
+    
+}
