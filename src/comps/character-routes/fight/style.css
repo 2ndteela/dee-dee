@@ -196,6 +196,7 @@
         padding-top: 16px;
         margin: 16px; 
         margin-bottom: 16px;
+        display: block;
     }
     #slot-list {
         padding-top: 8px;
@@ -208,11 +209,13 @@
         width: 160px;
     }
     .fancies-container {
-        width: 400px;
-        padding: 0 16px;
+        width: 368px;
+        padding: 0;
         flex-direction: row;
         justify-content: space-between;
         margin-bottom: 16px;
+        overflow-y: scroll;
+        overflow-x: hidden;
     }
     #three-stats div {
         width: 120px;
@@ -280,8 +283,8 @@
     
     #them-slots {
         flex-direction: column !important;
-        width: 400px;
-        padding: 16px;
+        width: 368px;
+        padding: 16px 0;
     }
     
     #slot-list {

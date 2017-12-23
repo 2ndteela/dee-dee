@@ -12,6 +12,11 @@ body {
   background-color: #333;
   font-family: Josefin Slab;
   color: white;
+  overflow-x: hidden;
+}
+
+body *::-webkit-scrollbar {
+  display: none;
 }
 
 style {

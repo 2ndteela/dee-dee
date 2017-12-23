@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './style.css'
-import store from '../../../store'
+import firebase from 'firebase'
 
 const details = [{attr: 3, name:'Acrobatics'}, {attr: 6, name:'Animal Handling'}, {attr: 4, name:'Arcana'}, {attr: 5, name:'Athletics'}, {attr: 1, name:'Deception'},
 { attr: 4, name:'History'}, {attr: 6, name:'Insight'}, {attr: 1, name: 'Intimidation'}, {attr: 4, name: 'Investigation'}, {attr: 6, name :'Medicine'},
@@ -18,12 +18,11 @@ class EditPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            guy: store.getState()
+            guy: null
         }
         this.toggleProStat = this.toggleProStat.bind(this)
     }
     saveCharacter() {
-        if (typeof(Storage) !== "undefined") {
             const inputs = document.querySelectorAll('input')
             const weapons = document.querySelectorAll('.weapon-div')
             const skills = document.querySelectorAll('.skill-area')
@@ -64,7 +63,7 @@ class EditPage extends Component {
             let name = this.state.guy.name
             let race = this.state.guy.race
             let guyClass = this.state.guy.class
-            const newGuy = {
+            firebase.database().ref(`characters/${this.props.match.params.id}`).set({
                 name: inputs[0].value === '' ? name :  inputs[0].value,
                 race: inputs[1].value === '' ? race :  inputs[1].value,
                 class: inputs[2].value === '' ? guyClass :  inputs[2].value,
@@ -75,7 +74,7 @@ class EditPage extends Component {
                 deets: deetArray,
                 ac: inputs[6].value === '' ? this.state.guy.ac : parseInt(inputs[6].value, 10),
                 speed: inputs[7].value === '' ? this.state.guy.speed : parseInt(inputs[7].value, 10),
-                initiavtive: inputs[8].value === '' ? this.state.guy.initiavtive : (inputs[8].value, 10),
+                initiative: inputs[8].value === '' ? this.state.guy.initiative : parseInt(inputs[8].value, 10),
                 health: inputs[9].value === '' ? this.state.guy.health : parseInt(inputs[9].value, 10),
                 pack: this.state.guy.pack,
                 notes: this.state.guy.notes,
@@ -85,16 +84,10 @@ class EditPage extends Component {
                 spells: spellArray,
                 spellSave: document.getElementById('spell-save').value === '' ? this.state.guy.spellSave : parseInt(document.getElementById('spell-save').value, 10),
                 spellSlots: slotArray,
-                weapons: weaponArray
+                weapons: weaponArray,
+                password: this.state.guy.password
+            })
 
-            }
-            console.log(fullArray)
-            fullArray[this.props.index] = newGuy
-            localStorage.setItem('characters', JSON.stringify(fullArray))
-        } else {
-            window.alert('You can not save because you need a newer browser. Use Chrome or Something')
-            console.log('No storage for you :/')
-        }
     }
     addSkill() {
         const daddy = document.getElementById('skills')
@@ -299,8 +292,22 @@ class EditPage extends Component {
             guy: copy
         })
     }
+
+    componentWillMount() {
+        var fireRef = firebase.database().ref(`characters/${this.props.match.params.id}`)
+        fireRef.on('value', (snapshot) => {
+            let temp = snapshot.val()
+            if(!temp.spells) temp.spells = []
+            if(!temp.spellSlots) temp.spellSlots = []
+            console.log(temp)
+            this.setState({
+                guy: temp
+            })
+        })
+    }
     
         render () {
+        if(!this.state.guy) return <h1>Loading</h1>
         return (
             <div id='master-edit'>
             <div className ='col-12 full-pad new-char-card'>
@@ -325,10 +332,10 @@ class EditPage extends Component {
                         </div>
                     </div>
                     ))}
-                    <input type='number' placeholder={this.state.guy.ac} className='third-wit' />
-                    <input type='number' placeholder={this.state.guy.speed} className='third-wit middle' />
-                    <input type='number'placeholder={this.state.guy.initiavtive} className='third-wit' />
-                    <input type='number' placeholder={this.state.guy.health} />
+                    <input type='number' placeholder={`AC: ${this.state.guy.ac}`} className='third-wit' />
+                    <input type='number' placeholder={`Speed: ${this.state.guy.speed}`} className='third-wit middle' />
+                    <input type='number'placeholder={`Init: ${this.state.guy.initiative}`} className='third-wit' />
+                    <input type='number' placeholder={`Speed: ${this.state.guy.health}`} />
                 </div>
                 <div>
                     <h2>Detail Stats</h2>

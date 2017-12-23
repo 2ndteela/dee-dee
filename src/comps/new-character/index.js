@@ -71,7 +71,7 @@ class NewCharacter extends Component {
                 deets: deetArray,
                 ac: parseInt(inputs[12].value, 10),
                 speed: parseInt(inputs[13].value, 10),
-                initiavtive: (inputs[14].value, 10),
+                initiative: parseInt(inputs[14].value, 10),
                 health: parseInt(inputs[15].value, 10),
                 pack: areas[areas.length-2].value,
                 notes: areas[areas.length-1].value,
@@ -80,14 +80,11 @@ class NewCharacter extends Component {
                 tempHealth : 0,
                 currentHealth: parseInt(inputs[15].value, 10),
                 spells: spellArray,
-                spellSave: parseInt(document.getElementById('spell-save').value, 10),
+                spellSave: parseInt(document.getElementById('spell-save').value, 10) === '' ? parseInt(document.getElementById('spell-save').value, 10) : 0,
                 spellSlots: slotArray,
                 password: inputs[inputs.length-1].value
 
             }
-            console.log(guy)
-            fullArray.push(guy)
-            console.log(fullArray)
             firebase.database().ref('characters').push( guy )
         } else {
             alert('Please put in a password')

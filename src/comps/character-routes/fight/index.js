@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './style.css'
-import store from '../../../store'
+import firebase from '../../../fire'
 
 const spells = (stuff, save) => { 
     if(stuff.length) {
@@ -30,14 +30,12 @@ const spells = (stuff, save) => {
 class Fight extends Component {
     constructor(props) {
         super(props)
-        const fighter = store.getState()
         this.state = {
-            guy : fighter,
-            health: fighter.currentHealth,
-            tempHealth: fighter.tempHealth,
-            slots: fighter.spellSlots
+            guy : null,
+            health: 20,
+            tempHealth: 20,
+            slots: []
         }
-        console.log(this.state.guy)
     }
 
     slots (stuff) {
@@ -81,7 +79,6 @@ class Fight extends Component {
     updateSlot(itr) {
         const tempSlot = document.querySelectorAll('.slot-input')[itr].childNodes[0]
         const tempVal = tempSlot.value
-        console.log(tempVal)
         const temp = this.state.guy
         temp.spellSlots[itr].used = tempVal
         this.setState({
@@ -95,16 +92,32 @@ class Fight extends Component {
         })
     }
 
+    componentWillMount() {
+        var fireRef = firebase.database().ref(`characters/${this.props.id}`)
+        fireRef.on('value', (snapshot) => {
+            let temp = snapshot.val()
+            if(!temp.spells) temp.spells = []
+            if(!temp.spellSlots) temp.spellSlots = []
+            console.log(temp)
+            this.setState({
+                guy: temp,
+                health: temp.health,
+                tempHealth: temp.tempHealth,
+                slots: temp.spellSlots
+            })
+        })
+    }
+
     componentWillUnmount () {
-        let toWrite = JSON.parse(localStorage.getItem('characters'))
-        toWrite[this.props.index] = this.state.guy
-        toWrite[this.props.index].currentHealth = this.state.guy.currentHealth
-        toWrite[this.props.index].tempHealth = this.state.tempHealth
-        toWrite[this.props.index].spellSlots = this.state.slots
-        localStorage.setItem('characters', JSON.stringify(toWrite))
+        firebase.database().ref(`characters/${this.props.id}`).update({
+            currentHealth: this.state.guy.currentHealth,
+            tempHealth: this.state.tempHealth,
+            spellSlots: this.state.guy.spellSlots
+        })
     }
 
     render() {
+        if(this.state.guy) {
         return (
             <div id='fight-container'>
                 <div className='fancies-container'>
@@ -128,8 +141,8 @@ class Fight extends Component {
                         <span>AC</span>
                     </div>
                     <div>
-                        <p>{this.state.guy.initiavtive}</p>
-                        <span>Initiavtive</span>
+                        <p>{this.state.guy.initiative}</p>
+                        <span>Initiative</span>
                     </div>
                     <div>
                         <p>{this.state.guy.speed}</p>
@@ -155,6 +168,8 @@ class Fight extends Component {
                     {this.slots(this.state.guy.spellSlots)}
             </div>
         )
+    }
+    else return <h1>Loading</h1>
     }
 }
 

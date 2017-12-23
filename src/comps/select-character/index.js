@@ -35,7 +35,7 @@ class Selector extends Component {
             payload: this.state.list[itr]
         }
         store.dispatch(toSend)
-        this.props.history.push(`/character`)
+        this.props.history.push(`/character/${this.state.list[itr]._id}`)
     }
 
     render() {

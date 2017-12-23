@@ -30,6 +30,14 @@
     padding: 4px 8px;
 }
 
+#go-edit {
+    display: none;
+}
+
+#go-main {
+    display: none;
+}
+
 #roll-button {
     width: 30px;
     height: 30px;
@@ -52,7 +60,52 @@
 
 #big-columns {
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: flex-start;
     flex-wrap: wrap;
+    position: relative;
+    top: 64px;
+}
+
+#main-page-div {
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+#main-page-div * {
+    max-height: 87vh;
+}
+
+@media screen and (min-width: 768px) {
+    #go-edit {
+        display: block;
+        position: fixed;
+        left: 84px;
+        top: 0px;
+        z-index: 6;
+        margin: 20px 0;
+        color: white;
+        border: 1px solid white;
+        padding: 4px 8px;
+    }
+
+    #go-main {
+        display: block;
+        position: fixed;
+        z-index: 6;
+        margin: 20px 0;
+        left: 135px;
+        top: 0px;
+        color: white;
+        border: 1px solid white;
+        padding: 4px 8px;
+    }
+
+    #fixed-top {
+        position: fixed;
+        z-index: 5;
+    }
+
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './style.css'
-import store from '../../../store'
+import firebase from '../../../fire'
 
 let mods
 
@@ -10,7 +10,7 @@ class Stats extends Component {
         this.state = {
             res: 20,
             show: false,
-            guy: store.getState()
+            guy: null
         }
     }
     toggleRes(thing) {
@@ -58,9 +58,17 @@ class Stats extends Component {
         }
         return <span>{thing.num} (<span className='mod-val'>{mod}</span>)</span>
     }
-    componentDidMount () {
+
+    componentWillMount () {
+        firebase.database().ref(`characters/${this.props.id}`).on('value', (snapshot) => {
+            this.setState({
+                guy: snapshot.val()
+            })
+        })
+    }
+
+    componentDidMount() {
         mods = document.querySelectorAll('.mod-val')
-        
         const all = document.querySelectorAll('.main-stats')[1].childNodes
         for(let i = 0; i < all.length; i++) {
             if(this.state.guy.deets[i].pro) {
@@ -70,9 +78,10 @@ class Stats extends Component {
     }
 
     render () {
-        const stats = this.state.guy.stats
-        const deets = this.state.guy.deets
-
+        if(this.state.guy) {
+            const stats = this.state.guy.stats
+            const deets = this.state.guy.deets
+            console.log(this.state.guy)
         return (
             <div onClick={() => this.exitBox()} id="stats-body">
                 <h1>Stats</h1>
@@ -111,6 +120,9 @@ class Stats extends Component {
             </div>
         )
     }
+    else return <h1>Loading</h1>
+    }
+
 }
 
 export default Stats
