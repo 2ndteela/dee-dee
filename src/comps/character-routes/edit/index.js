@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './style.css'
 import firebase from 'firebase'
+import NewCharacter from '../../new-character/index'
 
 const details = [{attr: 3, name:'Acrobatics'}, {attr: 6, name:'Animal Handling'}, {attr: 4, name:'Arcana'}, {attr: 5, name:'Athletics'}, {attr: 1, name:'Deception'},
 { attr: 4, name:'History'}, {attr: 6, name:'Insight'}, {attr: 1, name: 'Intimidation'}, {attr: 4, name: 'Investigation'}, {attr: 6, name :'Medicine'},
@@ -12,6 +13,19 @@ const statNames = ['Charisma', 'Constitution', 'Dexterity', 'Intelligence', 'Str
 const proTitle = (word, isBlue, callback, idx) => {
     if(isBlue) return <div onClick={()=>callback(idx)} className='proficient'>{word}</div>
     return <div onClick={()=>callback(idx)}>{word}</div>
+}
+
+const showMessage = () => {
+    const box =  document.getElementById('saved-message')
+    box.style.display = 'flex'
+    box.style.opacity = '1'
+    box.style.transition = '.3s'
+    setTimeout(() => {
+        box.style.opacity = '0'
+    }, 2700);
+    setTimeout(() => {
+        box.style.display = 'none'
+    }, 3000);
 }
 
 class EditPage extends Component {
@@ -86,6 +100,9 @@ class EditPage extends Component {
                 spellSlots: slotArray,
                 weapons: weaponArray,
                 password: this.state.guy.password
+            }).then((res, req, err) => {
+                if(err) return
+                else showMessage()
             })
 
     }
@@ -309,6 +326,9 @@ class EditPage extends Component {
         if(!this.state.guy) return <h1>Loading</h1>
         return (
             <div id='master-edit'>
+            <div id='saved-message'>
+                Character Updated
+            </div>
             <div className ='col-12 full-pad new-char-card'>
                 <div>
                     <h2>Basic Info</h2>

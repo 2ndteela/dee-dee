@@ -21,6 +21,7 @@ class App extends Component {
       <Router>
         <div>
           <div className="App">
+          <div id='new-message'>New Charater Added</div>
             <Route exact path='/' component={Home} />
             <Route path='/character-select/:password' component={Selecting} />
             <Route path='/character-new' component={NewCharacter} />
@@ -34,6 +35,7 @@ class App extends Component {
     <div className="App">
             <Router>
         <div>
+        <div id='new-message'>New Charater Added</div>
           <div className="App">
             <Route exact path='/' component={Home} />
             <Route path='/character-select/:password' component={Selecting} />

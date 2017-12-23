@@ -74,10 +74,6 @@
     flex-wrap: wrap;
 }
 
-#main-page-div * {
-    max-height: 87vh;
-}
-
 @media screen and (min-width: 768px) {
     #go-edit {
         display: block;

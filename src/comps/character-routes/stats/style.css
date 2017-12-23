@@ -28,19 +28,6 @@
     color: deepskyblue;
 }
 
-@keyframes spin {
-    from {
-        opacity: 0;
-        display: none;
-        transform: rotateY(0deg)
-    }
-    to {
-        opacity: 1;
-        display: flex;
-        transform: rotateY(1080)
-    }
-}
-
 #throw-result {
     width: 80vw;
     height: 40vh;
@@ -74,6 +61,7 @@
         display: block;
         overflow-y: scroll;
         overflow-x: hidden;
+        max-height: 87vh;
     }
 
     #stats-body h1 {

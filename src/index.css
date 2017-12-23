@@ -95,3 +95,16 @@ textarea {
 a {
   text-decoration: none;
 }
+
+#new-message {
+  width: 80vw;
+  position: fixed;
+  top: 10vh;
+  background-color: black;
+  color: white;
+  border: 1px solid white;
+  font-size: 36px;
+  padding: 16px;
+  text-align: center;
+  display: none;
+}

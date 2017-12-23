@@ -35,6 +35,18 @@
     justify-content: space-between;
 }
 
+#saved-message {
+    width: 80vw;
+    position: fixed;
+    top: 10vh;
+    background-color: black;
+    color: white;
+    border: 1px solid white;
+    font-size: 36px;
+    padding: 16px;
+    display: none;
+}
+
 @media screen and (min-width: 768px) {
     #master-edit .col-12 {
         width: 600px !important;

@@ -1,16 +1,29 @@
 import React, { Component } from 'react'
 import firebase from '../../fire'
 import './style.css'
+import { withRouter } from 'react-router-dom'
 
 const details = [{attr: 3, name:'Acrobatics'}, {attr: 6, name:'Animal Handling'}, {attr: 4, name:'Arcana'}, {attr: 5, name:'Athletics'}, {attr: 1, name:'Deception'},
 { attr: 4, name:'History'}, {attr: 6, name:'Insight'}, {attr: 1, name: 'Intimidation'}, {attr: 4, name: 'Investigation'}, {attr: 6, name :'Medicine'},
 {attr: 4, name: 'Nature'}, {attr: 6, name:'Perception'}, {attr: 1, name:'Performance'}, {attr: 1, name:'Persuasion'}, {attr: 4, name: 'Religion'}, {attr: 3, name:'Sleight of Hand'},
 {attr: 3, name:'Stealth'}, {attr: 6, name:'Survival'}]
 
+const showMessage = () => {
+    const box =  document.getElementById('new-message')
+    box.style.display = 'flex'
+    box.style.opacity = '1'
+    box.style.transition = '.3s'
+    setTimeout(() => {
+        box.style.opacity = '0'
+    }, 2700);
+    setTimeout(() => {
+        box.style.display = 'none'
+    }, 3000);
+}
+
 class NewCharacter extends Component {
     saveCharacter() {
         const inputs = document.querySelectorAll('input')
-        if (inputs[inputs.length-1].value !== '') {
             const throws = document.querySelectorAll('.throw')
             const deets = document.querySelectorAll('.lil-deet')
             const areas = document.querySelectorAll('textarea')
@@ -82,10 +95,12 @@ class NewCharacter extends Component {
                 password: inputs[inputs.length-1].value
 
             }
-            firebase.database().ref('characters').push( guy )
-        } else {
-            alert('Please put in a password')
-        }
+            if(guy.password === '') alert("enter a password")
+            else if (guy.password.includes('/') || guy.password.includes('\\') )alert("Password shouldn't conatain a '/' or '\\'")
+            else { firebase.database().ref('characters').push( guy )
+                showMessage()
+                this.props.history.push('/')
+            }
     }
     addSkill() {
         const daddy = document.getElementById('skills')
@@ -359,4 +374,4 @@ class NewCharacter extends Component {
     }
 }
 
-export default NewCharacter
+export default withRouter(NewCharacter)
