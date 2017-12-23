@@ -16,3 +16,29 @@
     text-decoration: none;
     font-family: Josefin Slab;
 }
+
+#saved-box {
+    flex-direction: row;
+}
+
+#saved-box input {
+    font-size: 24px;
+    padding: 7px;
+    color: white;
+    background-color: transparent;
+    border: none;
+    border: 1px solid white;
+}
+
+@media screen and (max-width: 768px) {
+    
+#saved-box {
+    flex-direction: column;
+}
+
+#saved-box input {
+    font-size: 24px;
+    padding: 7px;
+    margin-bottom: 16px;
+}
+}

@@ -18,9 +18,6 @@ class NewCharacter extends Component {
             const skills = document.querySelectorAll('.skill-area')
             const spells = document.querySelectorAll('.spell-div')
             const slots = document.querySelectorAll('.spell-slot')
-            let current = localStorage.getItem('characters')
-            let fullArray = []
-            if(current) fullArray = JSON.parse(current, 10)
             let statArray = []
             let deetArray = []
             let weaponArray = []

@@ -11,6 +11,11 @@ import Roller from '../character-routes/roller/index'
 
 var ID
 
+const statsCaller = (ID) => { return(<Stats id={ID.match.params.id} />) } 
+const packCaller = (ID) => { return(<Pack id={ID.match.params.id} />) } 
+const fightCaller = (ID) => { return(<Fight id={ID.match.params.id} />) } 
+const editCaller = (ID) => { return(<EditPage id={ID.match.params.id} />) } 
+
 const mainPage = (ID) => {
     const temp = ID.match.params.id
 return (
@@ -50,16 +55,16 @@ class ViewCharater extends Component {
                 <Router>
                     <div>
                     <div id='character-view-card'>
-                        <Route exact path='/character/:id' component={Stats}/>
-                        <Route path = '/character/:id/pack' component={Pack} />
-                        <Route path = '/character/:id/fight' component={Fight} />
-                        <Route path = '/character/:id/edit' component={EditPage} />
+                        <Route exact path='/character/:id' component={statsCaller}/>
+                        <Route path = '/character/:id/pack' component={packCaller} />
+                        <Route path = '/character/:id/fight' component={fightCaller} />
+                        <Route path = '/character/:id/edit' component={editCaller} />
                         <Route path = '/character/:id/roll' component={Roller} />
                     </div>
                     <div id="character-tabs">
-                        <NavLink to={`/character/`}>Stats</NavLink>
-                        <NavLink to={`/character/pack`}>Pack</NavLink>
-                        <NavLink to={`/character/roll`}>
+                        <NavLink to={`/character/${this.state.id}`}>Stats</NavLink>
+                        <NavLink to={`/character/${this.state.id}/pack`}>Pack</NavLink>
+                        <NavLink to={`/character/${this.state.id}/roll`}>
                             <div id='roll-button'>
                                 <div className='dot'></div>
                                 <div className='dot'></div>
@@ -69,8 +74,8 @@ class ViewCharater extends Component {
                                 <div className='dot'></div>
                             </div>
                         </NavLink>
-                        <NavLink to={`/character/fight`}>Fight</NavLink>
-                        <NavLink to={`/character/edit`}>Edit</NavLink>
+                        <NavLink to={`/character/${this.state.id}/fight`}>Fight</NavLink>
+                        <NavLink to={`/character/${this.state.id}/edit`}>Edit</NavLink>
                     </div>
                     </div>
                 </Router>
@@ -88,7 +93,7 @@ class ViewCharater extends Component {
                 <NavLink id='go-edit' to={`/character/${this.state.id}/edit`}>Edit</NavLink>
                 <NavLink id='go-main' to={`/character/${this.state.id}`}>Main Page</NavLink>
                     <Route exact path='/character/:id' component={mainPage} />
-                    <Route path='/character/:id/edit' component={EditPage} />
+                    <Route path='/character/:id/edit' component={editCaller} />
                 </div>
             </Router>
         </div>

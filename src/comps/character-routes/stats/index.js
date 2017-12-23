@@ -42,14 +42,14 @@ class Stats extends Component {
     }
 
     proStat(thing) {
-        const withPro = parseInt(this.state.guy.prof, 10) + parseInt(thing.num, 10)
+        const withPro = parseInt(thing.num, 10)
         if(thing.pro) {
-            let mod = Math.floor((parseInt(withPro, 10) -10) /2)
+            let mod = Math.floor((parseInt(thing.num, 10) -10) /2) + parseInt(this.state.guy.prof, 10)
             if (mod >= 0) {
                 mod = '+' + mod
             }
             return (
-                <span>{withPro} (<span className='mod-val'>{mod}</span>)</span>
+                <span>{withPro} (<span className='mod-val good'>{mod}</span>)</span>
             )
         }
         let mod = Math.floor((parseInt(thing.num, 10) -10) /2) 
@@ -68,7 +68,6 @@ class Stats extends Component {
     }
 
     componentDidMount() {
-        mods = document.querySelectorAll('.mod-val')
         const all = document.querySelectorAll('.main-stats')[1].childNodes
         for(let i = 0; i < all.length; i++) {
             if(this.state.guy.deets[i].pro) {
@@ -81,7 +80,6 @@ class Stats extends Component {
         if(this.state.guy) {
             const stats = this.state.guy.stats
             const deets = this.state.guy.deets
-            console.log(this.state.guy)
         return (
             <div onClick={() => this.exitBox()} id="stats-body">
                 <h1>Stats</h1>

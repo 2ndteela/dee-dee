@@ -63,7 +63,7 @@ class EditPage extends Component {
             let name = this.state.guy.name
             let race = this.state.guy.race
             let guyClass = this.state.guy.class
-            firebase.database().ref(`characters/${this.props.match.params.id}`).set({
+            firebase.database().ref(`characters/${this.props.id}`).set({
                 name: inputs[0].value === '' ? name :  inputs[0].value,
                 race: inputs[1].value === '' ? race :  inputs[1].value,
                 class: inputs[2].value === '' ? guyClass :  inputs[2].value,
@@ -294,12 +294,11 @@ class EditPage extends Component {
     }
 
     componentWillMount() {
-        var fireRef = firebase.database().ref(`characters/${this.props.match.params.id}`)
+        var fireRef = firebase.database().ref(`characters/${this.props.id}`)
         fireRef.on('value', (snapshot) => {
             let temp = snapshot.val()
             if(!temp.spells) temp.spells = []
             if(!temp.spellSlots) temp.spellSlots = []
-            console.log(temp)
             this.setState({
                 guy: temp
             })
@@ -316,9 +315,9 @@ class EditPage extends Component {
                     <input type='text' placeholder={this.state.guy.name}/>
                     <input type='text' placeholder={this.state.guy.race}/>
                     <input type='text' placeholder={this.state.guy.class} className='half-wit first'/>
-                    <input type='number' placeholder={this.state.guy.level} className='half-wit '/>
-                    <input type='number' placeholder={this.state.guy.prof} id='prof' className='half-wit first'/>
-                    <input type='number' placeholder={this.state.guy.exp} className='half-wit'/>
+                    <input type='number' placeholder={`Lvl: ${this.state.guy.level}`} className='half-wit '/>
+                    <input type='number' placeholder={`Prof: ${this.state.guy.prof}`} id='prof' className='half-wit first'/>
+                    <input type='number' placeholder={`Exp: ${this.state.guy.exp}`} className='half-wit'/>
                 </div>
                 <div id='edit-stats'>
                     <h2>Stats</h2>
@@ -335,7 +334,7 @@ class EditPage extends Component {
                     <input type='number' placeholder={`AC: ${this.state.guy.ac}`} className='third-wit' />
                     <input type='number' placeholder={`Speed: ${this.state.guy.speed}`} className='third-wit middle' />
                     <input type='number'placeholder={`Init: ${this.state.guy.initiative}`} className='third-wit' />
-                    <input type='number' placeholder={`Speed: ${this.state.guy.health}`} />
+                    <input type='number' placeholder={`Health: ${this.state.guy.health}`} />
                 </div>
                 <div>
                     <h2>Detail Stats</h2>
