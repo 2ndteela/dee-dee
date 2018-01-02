@@ -31,6 +31,7 @@ class NewCharacter extends Component {
             const skills = document.querySelectorAll('.skill-area')
             const spells = document.querySelectorAll('.spell-div')
             const slots = document.querySelectorAll('.spell-slot')
+            const align = document.querySelector('select').value
             let statArray = []
             let deetArray = []
             let weaponArray = []
@@ -79,6 +80,7 @@ class NewCharacter extends Component {
                 exp: parseInt(inputs[5].value, 10),
                 stats: statArray,
                 deets: deetArray,
+                alignment: align,
                 ac: parseInt(inputs[12].value, 10),
                 speed: parseInt(inputs[13].value, 10),
                 initiative: parseInt(inputs[14].value, 10),
@@ -97,7 +99,8 @@ class NewCharacter extends Component {
             }
             if(guy.password === '') alert("enter a password")
             else if (guy.password.includes('/') || guy.password.includes('\\') )alert("Password shouldn't conatain a '/' or '\\'")
-            else { firebase.database().ref('characters').push( guy )
+            else { 
+                firebase.database().ref('characters').push( guy )
                 showMessage()
                 this.props.history.push('/')
             }
@@ -272,10 +275,21 @@ class NewCharacter extends Component {
                     <h2>Basic Info</h2>
                     <input type='text' placeholder='Name'/>
                     <input type='text' placeholder='Race'/>
-                    <input type='text' placeholder='Class' className='half-wit first'/>
-                    <input type='number' placeholder='Level' className='half-wit '/>
-                    <input type='number' placeholder='Proficiency' id='prof' className='half-wit first'/>
-                    <input type='number' placeholder='Expierence' className='half-wit'/>
+                    <input type='text' placeholder='Class' className='third-wit'/>
+                    <input type='number' placeholder='Level' className='third-wit middle'/>
+                    <input type='number' placeholder='Proficiency' id='prof' className='third-wit'/>
+                    <input type='number' placeholder='Expierence' className='half-wit first'/>
+                    <select className='half-wit'>
+                        <option>Lawful Good</option>
+                        <option>Neutral Good</option>
+                        <option>Chaotic Good</option>
+                        <option>Lawful Neutral</option>
+                        <option>True Neutral</option>
+                        <option>Chaotic Neutral</option>
+                        <option>Lawful Evil</option>
+                        <option>Neutral Evil</option>
+                        <option>Chaotic Evil</option>
+                    </select>
                 </div>
                 <div id='stats'>
                     <h2>Stats</h2>

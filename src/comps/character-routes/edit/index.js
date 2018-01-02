@@ -64,8 +64,8 @@ class EditPage extends Component {
             }
             for(let i = 0; i < spells.length; i++) {
                 const title = spells[i].childNodes[0].value === '' ? this.state.guy.spells[i].name : spells[i].childNodes[0].value
-                const damage = spells[i].childNodes[0].value === '' ? this.state.guy.spells[i].dmg : spells[i].childNodes[1].value
-                const desc = spells[i].childNodes[0].value === '' ? this.state.guy.spells[i].des : spells[i].childNodes[2].value
+                const damage = spells[i].childNodes[1].value === '' ? this.state.guy.spells[i].dmg : spells[i].childNodes[1].value
+                const desc = spells[i].childNodes[2].value === '' ? this.state.guy.spells[i].des : spells[i].childNodes[2].value
                 spellArray.push({name: title, dmg: damage, des: desc})
             }
             for(let i = 0; i < slots.length; i++) {
@@ -334,10 +334,21 @@ class EditPage extends Component {
                     <h2>Basic Info</h2>
                     <input type='text' placeholder={this.state.guy.name}/>
                     <input type='text' placeholder={this.state.guy.race}/>
-                    <input type='text' placeholder={this.state.guy.class} className='half-wit first'/>
-                    <input type='number' placeholder={`Lvl: ${this.state.guy.level}`} className='half-wit '/>
-                    <input type='number' placeholder={`Prof: ${this.state.guy.prof}`} id='prof' className='half-wit first'/>
-                    <input type='number' placeholder={`Exp: ${this.state.guy.exp}`} className='half-wit'/>
+                    <input type='text' placeholder={this.state.guy.class} className='third-wit'/>
+                    <input type='number' placeholder={`Lvl: ${this.state.guy.level}`} className='third-wit middle'/>
+                    <input type='number' placeholder={`Prof: ${this.state.guy.prof}`} id='prof' className='third-wit'/>
+                    <input type='number' placeholder={`Exp: ${this.state.guy.exp}`} className='half-wit first'/>
+                    <select className='half-wit' value={this.state.guy.alignment}>
+                        <option>Lawful Good</option>
+                        <option>Neutral Good</option>
+                        <option>Chaotic Good</option>
+                        <option>Lawful Neutral</option>
+                        <option>True Neutral</option>
+                        <option>Chaotic Neutral</option>
+                        <option>Lawful Evil</option>
+                        <option>Neutral Evil</option>
+                        <option>Chaotic Evil</option>
+                    </select>
                 </div>
                 <div id='edit-stats'>
                     <h2>Stats</h2>
