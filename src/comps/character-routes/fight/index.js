@@ -15,7 +15,7 @@ const spells = (stuff, save) => {
                                 <h3>{thing.name}</h3>
                                 <h3>{thing.dmg}</h3>
                             </div>
-                            <span>{thing.des}</span>
+                            <span className='spell-des'>{thing.des}</span>
                         </div>
                     )
                 })}
