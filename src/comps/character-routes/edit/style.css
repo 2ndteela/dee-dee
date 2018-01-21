@@ -47,6 +47,32 @@
     display: none;
 }
 
+.check-box-container {
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.outer-check-box {
+    border: 1px solid white;
+    height: 20px;
+    width: 20px !important;
+    margin-top: 16px;
+    margin-right: 8px;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+}
+
+.checked {
+    background-color: white;
+}
+
+.inner-check-box {
+    height: 12px;
+    width: 12px !important;
+    margin-top: 16px;
+}
+
 @media screen and (min-width: 768px) {
     #master-edit .col-12 {
         width: 600px !important;

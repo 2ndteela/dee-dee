@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import './style.css'
 import firebase from 'firebase'
-import NewCharacter from '../../new-character/index'
 
 const details = [{attr: 3, name:'Acrobatics'}, {attr: 6, name:'Animal Handling'}, {attr: 4, name:'Arcana'}, {attr: 5, name:'Athletics'}, {attr: 1, name:'Deception'},
 { attr: 4, name:'History'}, {attr: 6, name:'Insight'}, {attr: 1, name: 'Intimidation'}, {attr: 4, name: 'Investigation'}, {attr: 6, name :'Medicine'},
@@ -9,6 +8,37 @@ const details = [{attr: 3, name:'Acrobatics'}, {attr: 6, name:'Animal Handling'}
 {attr: 3, name:'Stealth'}, {attr: 6, name:'Survival'}]
 
 const statNames = ['Charisma', 'Constitution', 'Dexterity', 'Intelligence', 'Strength', 'Wisdom']
+
+const toggleCheck = (e) => {
+    const target = e.target
+    let inner = target.childNodes[0]
+    if(!inner) inner = target 
+    if(inner.classList.contains('checked')) inner.classList.remove('checked')
+    else inner.classList.add('checked')
+}
+
+const CheckBox = (test) => {
+    if(test) {
+        return (
+    <div className='check-box-container'>
+    <div className='outer-check-box' onClick={(e) => toggleCheck(e)}>
+        <div className='inner-check-box checked'></div>
+    </div>
+    <span>Prepare Spell</span>
+    </div>
+        )
+    }
+    else {
+        return (
+            <div className='check-box-container'>
+            <div className='outer-check-box' onClick={(e) => toggleCheck(e)}>
+                <div className='inner-check-box'></div>
+            </div>
+            <span>Prepare Spell</span>
+            </div>
+        )
+    }
+}
 
 const proTitle = (word, isBlue, callback, idx) => {
     if(isBlue) return <div onClick={()=>callback(idx)} className='proficient'>{word}</div>
@@ -42,9 +72,7 @@ class EditPage extends Component {
             const skills = document.querySelectorAll('.skill-area')
             const spells = document.querySelectorAll('.spell-div')
             const slots = document.querySelectorAll('.spell-slot')
-            let current = localStorage.getItem('characters')
-            let fullArray = []
-            if(current) fullArray = JSON.parse(current)
+            const preparedSpells = document.querySelectorAll('.inner-check-box')
             let statArray = this.state.guy.stats
             let deetArray = this.state.guy.deets
             let weaponArray = []
@@ -58,15 +86,17 @@ class EditPage extends Component {
                     weaponArray.push({name: title, bonus: bns, damage: dmg })
             }
             for(let i = 0; i < skills.length; i++) {
-                    const word = skills[i].childNodes[0].value === '' ? this.state.guy.skills[i].name : skills[i].childNodes[0].value
-                    const describe = skills[i].childNodes[1].value === '' ? this.state.guy.skills[i].des : skills[i].childNodes[1].value
+                    const word = this.state.guy.skills[i].name
+                    const describe = this.state.guy.skills[i].des
                     skillArray.push({name: word, des: describe})
             }
             for(let i = 0; i < spells.length; i++) {
-                const title = spells[i].childNodes[0].value === '' ? this.state.guy.spells[i].name : spells[i].childNodes[0].value
-                const damage = spells[i].childNodes[1].value === '' ? this.state.guy.spells[i].dmg : spells[i].childNodes[1].value
-                const desc = spells[i].childNodes[2].value === '' ? this.state.guy.spells[i].des : spells[i].childNodes[2].value
-                spellArray.push({name: title, dmg: damage, des: desc})
+                const title = this.state.guy.spells[i].name
+                const damage = this.state.guy.spells[i].dmg
+                const desc = this.state.guy.spells[i].des
+                const temp = {name: title, dmg: damage, des: desc}
+                if(preparedSpells[i].classList.contains('checked')) temp.prep = true
+                spellArray.push(temp)
             }
             for(let i = 0; i < slots.length; i++) {
                 const level = slots[i].childNodes[0].innerHTML
@@ -99,7 +129,7 @@ class EditPage extends Component {
                 spellSave: document.getElementById('spell-save').value === '' ? this.state.guy.spellSave : parseInt(document.getElementById('spell-save').value, 10),
                 spellSlots: slotArray,
                 weapons: weaponArray,
-                password: this.state.guy.password
+                password: this.state.guy.password,
             }).then((res, req, err) => {
                 if(err) return
                 else showMessage()
@@ -287,7 +317,7 @@ class EditPage extends Component {
         })
     }
 
-        checkDeet (thing) {
+    checkDeet (thing) {
             if(thing.pro) {
                 return <span className='proficient deet-val'>{thing.num}</span>
             }
@@ -295,7 +325,7 @@ class EditPage extends Component {
             else {
                 return <span className='deet-val'>{thing.num}</span>
             }
-        }
+    }
     toggleProStat(itr) {
         
         const list = document.querySelectorAll('.throw-box')
@@ -307,6 +337,51 @@ class EditPage extends Component {
 
         this.setState({
             guy: copy
+        })
+    }
+
+    changeSpellName(e, num) {
+        let tempGuy = this.state.guy
+        let tempSpell = e.target.value
+        tempGuy.spells[num].name = tempSpell
+        this.setState({
+            guy: tempGuy
+        })
+    }
+
+    changeSpellDes(e, num) {
+        let tempGuy = this.state.guy
+        let tempSpell = e.target.value
+        tempGuy.spells[num].des = tempSpell
+        this.setState({
+            guy: tempGuy
+        })
+    }
+
+    changeSpellDamage(e, num) {
+        let tempGuy = this.state.guy
+        let tempSpell = e.target.value
+        tempGuy.spells[num].dmg = tempSpell
+        this.setState({
+            guy: tempGuy
+        })
+    }
+
+    changeTraitDes(e, num) {
+        let tempGuy = this.state.guy
+        let tempTrait = e.target.value
+        tempGuy.skills[num].des = tempTrait
+        this.setState({
+            guy: tempGuy
+        })
+    }
+
+    changeTraitName(e, num) {
+        let tempGuy = this.state.guy
+        let tempTrait = e.target.value
+        tempGuy.skills[num].name = tempTrait
+        this.setState({
+            guy: tempGuy
         })
     }
 
@@ -401,10 +476,11 @@ class EditPage extends Component {
                     <input type='text' id='spell-save' placeholder='Spell Save DC'/>
                     <div id='spells'>
                     {this.state.guy.spells.map((spell, itr) => (
-                        <div key={spell.name} className='spell-div'>
-                            <input type='text' placeholder={spell.name} />
-                            <input type='text' placeholder={spell.dmg}/>
-                            <textarea placeholder={spell.des} className='short-area'/> 
+                        <div key={'spellname ' + itr} className='spell-div'>
+                            <input type='text' value={spell.name} onChange={(e) => this.changeSpellName(e,itr)} />
+                            <input type='text' value={spell.dmg} onChange={(e) => this.changeSpellDamage(e, itr)}/>
+                            <textarea value={spell.des} className='short-area' onChange={(e) => this.changeSpellDes(e, itr)}/> 
+                            {CheckBox(spell.prep)}
                         </div>
                         )
                     )}
@@ -431,9 +507,9 @@ class EditPage extends Component {
                     <div id='skills'>
                         <h2>Skills and Attributes</h2>
                         {this.state.guy.skills.map((data, itr) => (
-                            <div key={data.name} className='skill-area'>
-                                <input placeholder={data.name} />
-                                <textarea placeholder={data.des} className='short-area'/>
+                            <div key={'skill' + itr} className='skill-area'>
+                                <input value={data.name} onChange={(e) => this.changeTraitName(e, itr)}  />
+                                <textarea value={data.des} onChange={(e) => this.changeTraitDes(e, itr)} className='short-area'/>
                             </div>
                         ))}
                     </div>

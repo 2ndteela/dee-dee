@@ -9,8 +9,9 @@ const spells = (stuff, save) => {
             <div id='magic-head'><h2>Spells</h2> <span>Save DC: {save}</span></div>
             <div id='magic-bois'>
                 {stuff.map((thing, itr) => {
+                    if(thing.prep) {
                     return (
-                        <div className='spell-deets' key={itr*8}>
+                        <div className='spell-deets' key={itr + 'qq'}>
                             <div className='spell-header'>
                                 <h3>{thing.name}</h3>
                                 <h3>{thing.dmg}</h3>
@@ -18,6 +19,8 @@ const spells = (stuff, save) => {
                             <span className='spell-des'>{thing.des}</span>
                         </div>
                     )
+                }
+                else return null
                 })}
             </div>
             </div>
@@ -157,7 +160,7 @@ class Fight extends Component {
                         <span className='weapon-damage'>Damage</span>
                     </div>
                     {this.state.guy.weapons.map((data,itr) => (
-                        <div key={data.bonus + 1}>
+                        <div key={data.bonus + 1} className='weapon-info'>
                             <span className='weapon-name'>{data.name}</span>
                             <span>{data.bonus}</span>
                             <span className='weapon-damage'>{data.damage}</span>
