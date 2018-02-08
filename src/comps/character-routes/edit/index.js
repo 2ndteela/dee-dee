@@ -94,7 +94,8 @@ class EditPage extends Component {
                 const title = this.state.guy.spells[i].name
                 const damage = this.state.guy.spells[i].dmg
                 const desc = this.state.guy.spells[i].des
-                const temp = {name: title, dmg: damage, des: desc}
+                const level = this.state.guy.spells[i].lvl
+                const temp = {name: title, dmg: damage, des: desc, lvl: level}
                 if(preparedSpells[i].classList.contains('checked')) temp.prep = true
                 spellArray.push(temp)
             }
@@ -367,6 +368,15 @@ class EditPage extends Component {
         })
     }
 
+    changeSpellLvl(e, num) {
+        let tempGuy = this.state.guy
+        let tempSpell = e.target.value
+        tempGuy.spells[num].lvl = tempSpell
+        this.setState({
+            guy: tempGuy
+        })
+    }
+
     changeTraitDes(e, num) {
         let tempGuy = this.state.guy
         let tempTrait = e.target.value
@@ -473,12 +483,13 @@ class EditPage extends Component {
                 </div>
                 <div className='center-div'>
                     <h2>Spells</h2>
-                    <input type='text' id='spell-save' placeholder='Spell Save DC'/>
+                    <input type='text' id='spell-save' placeholder={`Spell Save DC: ${this.state.guy.spellSave}`}/>
                     <div id='spells'>
                     {this.state.guy.spells.map((spell, itr) => (
                         <div key={'spellname ' + itr} className='spell-div'>
                             <input type='text' value={spell.name} onChange={(e) => this.changeSpellName(e,itr)} />
-                            <input type='text' value={spell.dmg} onChange={(e) => this.changeSpellDamage(e, itr)}/>
+                                <input type='text' value={spell.dmg} onChange={(e) => this.changeSpellDamage(e, itr)} className='half-wit first'/>
+                                <input type='text' value={spell.lvl} placeholder='Spell Lvl' className='half-wit' onChange={(e) => this.changeSpellLvl(e, itr)} />
                             <textarea value={spell.des} className='short-area' onChange={(e) => this.changeSpellDes(e, itr)}/> 
                             {CheckBox(spell.prep)}
                         </div>

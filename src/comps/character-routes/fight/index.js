@@ -16,6 +16,7 @@ const spells = (stuff, save) => {
                                 <h3>{thing.name}</h3>
                                 <h3>{thing.dmg}</h3>
                             </div>
+                            <h4>Level: {thing.lvl}</h4>
                             <span className='spell-des'>{thing.des}</span>
                         </div>
                     )
