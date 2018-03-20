@@ -39,9 +39,6 @@ class Pack extends Component {
                     guy: temp
                 })
             }
-            else {
-                console.log()
-            }
         })
     }
 

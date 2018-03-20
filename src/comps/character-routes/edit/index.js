@@ -138,17 +138,22 @@ class EditPage extends Component {
 
     }
     addSkill() {
-        const daddy = document.getElementById('skills')
-        const container = document.createElement('div')
-        const input = document.createElement('input')
-        const area = document.createElement('textarea')
-        input.placeholder = 'Title'
-        area.placeholder = 'Description'
-        area.classList.add('short-area')
-        container.classList.add('skill-area')
-        container.appendChild(input)
-        container.appendChild(area)
-        daddy.appendChild(container)
+        let temp = this.state.guy
+        temp.skills.push({})
+        this.setState({
+            guy: temp
+        })
+        // const daddy = document.getElementById('skills')
+        // const container = document.createElement('div')
+        // const input = document.createElement('input')
+        // const area = document.createElement('textarea')
+        // input.placeholder = 'Title'
+        // area.placeholder = 'Description'
+        // area.classList.add('short-area')
+        // container.classList.add('skill-area')
+        // container.appendChild(input)
+        // container.appendChild(area)
+        // daddy.appendChild(container)
     }
 
     removeSkill() {
@@ -239,20 +244,12 @@ class EditPage extends Component {
         console.log(this.state.guy)
     }
     addSpell () {
-        const daddy = document.getElementById('spells')
-        const container = document.createElement('div')
-        const input = document.createElement('input')
-        const name = document.createElement('input')
-        const area = document.createElement('textarea')
-        name.placeholder = 'Name'
-        input.placeholder ='Damage'
-        area.placeholder = 'Description'
-        area.classList.add('short-area')
-        container.appendChild(name)
-        container.appendChild(input)
-        container.appendChild(area)
-        container.classList.add('spell-div')
-        daddy.appendChild(container)
+        let temp = this.state.guy
+        temp.spells.push({})
+        this.setState({
+            guy: temp
+        })
+
     }
 
     removeSpell() {
@@ -487,8 +484,8 @@ class EditPage extends Component {
                     <div id='spells'>
                     {this.state.guy.spells.map((spell, itr) => (
                         <div key={'spellname ' + itr} className='spell-div'>
-                            <input type='text' value={spell.name} onChange={(e) => this.changeSpellName(e,itr)} />
-                                <input type='text' value={spell.dmg} onChange={(e) => this.changeSpellDamage(e, itr)} className='half-wit first'/>
+                            <input type='text' value={spell.name} placeholder='Name' onChange={(e) => this.changeSpellName(e,itr)} />
+                                <input type='text' value={spell.dmg} placeholder='Damage' onChange={(e) => this.changeSpellDamage(e, itr)} className='half-wit first'/>
                                 <input type='text' value={spell.lvl} placeholder='Spell Lvl' className='half-wit' onChange={(e) => this.changeSpellLvl(e, itr)} />
                             <textarea value={spell.des} className='short-area' onChange={(e) => this.changeSpellDes(e, itr)}/> 
                             {CheckBox(spell.prep)}
@@ -519,8 +516,8 @@ class EditPage extends Component {
                         <h2>Skills and Attributes</h2>
                         {this.state.guy.skills.map((data, itr) => (
                             <div key={'skill' + itr} className='skill-area'>
-                                <input value={data.name} onChange={(e) => this.changeTraitName(e, itr)}  />
-                                <textarea value={data.des} onChange={(e) => this.changeTraitDes(e, itr)} className='short-area'/>
+                                <input placeholder='Name' value={data.name} onChange={(e) => this.changeTraitName(e, itr)}  />
+                                <textarea placeholder='Description' value={data.des} onChange={(e) => this.changeTraitDes(e, itr)} className='short-area'/>
                             </div>
                         ))}
                     </div>
