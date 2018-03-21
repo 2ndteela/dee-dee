@@ -131,6 +131,7 @@ class EditPage extends Component {
                 spellSlots: slotArray,
                 weapons: weaponArray,
                 password: this.state.guy.password,
+                alignment: document.getElementById('aligment-select').value
             }).then((res, req, err) => {
                 if(err) return
                 else showMessage()
@@ -143,43 +144,29 @@ class EditPage extends Component {
         this.setState({
             guy: temp
         })
-        // const daddy = document.getElementById('skills')
-        // const container = document.createElement('div')
-        // const input = document.createElement('input')
-        // const area = document.createElement('textarea')
-        // input.placeholder = 'Title'
-        // area.placeholder = 'Description'
-        // area.classList.add('short-area')
-        // container.classList.add('skill-area')
-        // container.appendChild(input)
-        // container.appendChild(area)
-        // daddy.appendChild(container)
     }
 
     removeSkill() {
-        const over = document.getElementById('skills')
-        const last = over.childNodes[over.childNodes.length - 1]
-        over.removeChild(last)
+        let temp = this.state.guy
+        temp.skills.pop()
+        this.setState({
+            guy: temp
+        })
     }
 
     addWeapon() {
-        const container = document.createElement('div')
-        container.classList.add('weapon-div')
-        const weapon = document.createElement('input')
-        const atk = document.createElement('input')
-        const dmg = document.createElement('input')
-        weapon.placeholder = 'Weapon'
-        atk.placeholder = 'Atk Bns'
-        dmg.placeholder = 'Damage'
-        container.appendChild(weapon)
-        container.appendChild(atk)
-        container.appendChild(dmg)
-        document.getElementById('weapons').appendChild(container)
+        let temp = this.state.guy
+        temp.weapons.push({})
+        this.setState({
+            guy: temp
+        })
     }
     removeWeapon() {
-       const over = document.getElementById('weapons')
-       const last = over.childNodes[over.childNodes.length - 1]
-       over.removeChild(last)
+        let temp = this.state.guy
+        temp.weapons.pop()
+        this.setState({
+            guy: temp
+        })
     }
     addProThrow(num) {
         const displays = document.querySelectorAll('.throw-num')
@@ -249,15 +236,14 @@ class EditPage extends Component {
         this.setState({
             guy: temp
         })
-
     }
 
     removeSpell() {
-        const over = document.getElementById('spells')
-        if(over.childNodes.length) {
-            const last = over.childNodes[over.childNodes.length - 1]
-            over.removeChild(last)
-        }
+        let temp = this.state.guy
+        temp.spells.pop()
+        this.setState({
+            guy: temp
+        })
     }
 
     addSlot() {
@@ -420,7 +406,7 @@ class EditPage extends Component {
                     <input type='number' placeholder={`Lvl: ${this.state.guy.level}`} className='third-wit middle'/>
                     <input type='number' placeholder={`Prof: ${this.state.guy.prof}`} id='prof' className='third-wit'/>
                     <input type='number' placeholder={`Exp: ${this.state.guy.exp}`} className='half-wit first'/>
-                    <select className='half-wit' value={this.state.guy.alignment}>
+                    <select className='half-wit' value={this.state.guy.alignment} id='aligment-select'>
                         <option>Lawful Good</option>
                         <option>Neutral Good</option>
                         <option>Chaotic Good</option>
