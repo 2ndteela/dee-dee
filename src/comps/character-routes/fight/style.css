@@ -117,7 +117,7 @@
 #magic-bois {
     flex-direction: column;
     flex-direction: column !important;
-    border-top: 1px solid white;
+
 }
 
 .spell-header {
@@ -144,6 +144,7 @@
 #magic-head {
     width: 92vw;
     justify-content: space-between;
+    border-bottom: 1px solid white;
 }
 
 #magic-head span {
@@ -176,30 +177,73 @@
     flex-direction: row !important;
 }
 
-#slot-list input {
-    width: 100px;
+/* start here!!! */
+
+.spell-container {
+    width: 100%;
+    padding-top: 8px;
+    flex-direction: column !important;
+    margin-bottom: 8px;
 }
 
-
-#slot-list div {
-    justify-content: space-between !important;
-    margin-bottom: 4px;
+.spell-container h3 {
     width: 100%;
 }
 
-#slot-list div h3 {
-    text-align: left;
-    justify-content: flex-start;
-    align-items: flex-start;
+.spell-button {
+    border-bottom: 1px solid white;
+    width: 7vw;
+    height: 7vw;
+    justify-content: center;
+    align-items: center;
+    transition: .3s;
 }
 
-#slot-list div span {
-    align-items: flex-end;
-    justify-content: flex-end;
+.spell-button:hover {
+    background-color: white;
+    color: black;
 }
+
+.spell-progess-container {
+    width: 80vw;
+    height: 7vw;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-bottom: 1px solid white;
+}
+
+.spell-progess {
+    height: 7vw;
+    transition: .2s;
+    }
 
 .spell-des {
     font-size: 16px;
+}
+
+#spell-sort-buttons {
+    flex-wrap: wrap;
+}
+
+#spell-sort-buttons button {
+    font-size: 16px;
+    width: 18.4vw;
+    padding: 8px 0px;
+}
+
+#spell-sort-buttons #all-spells {
+    width: 92vw;;
+    margin: 16px 0px;
+} 
+
+#long-rest {
+    margin-bottom: 16px; 
+}
+
+.expansion-pannel {
+    height: 0px;
+    overflow: hidden;
+    transition: .2s;
 }
 
 @media screen and (min-width: 768px) {
@@ -315,7 +359,59 @@
     #magic-bois {
         flex-direction: column;
         flex-direction: column !important;
-        border-top: 1px solid white;
         width: 368px;
     }
+
+    #spell-sort-buttons button {
+        font-size: 16px;
+        width: 73px;
+    }
+    
+    #spell-sort-buttons #all-spells {
+        width: 366px;
+        margin: 8px 0px;
+    } 
+
+    .spell-container {
+        width: 100%;
+        padding-top: 8px;
+        flex-direction: column !important;
+        margin-bottom: 8px;
+    }
+    
+    .spell-container h3 {
+        width: 100%;
+    }
+    
+    .spell-button {
+        border-bottom: 1px solid white;
+        height: 30px;
+        width: 30px;
+        justify-content: center;
+        align-items: center;
+        transition: .3s;
+    }
+    
+    .spell-button:hover {
+        background-color: white;
+        color: black;
+    }
+    
+    .spell-progess-container {
+        width: 308px;
+        justify-content: flex-start;
+        align-items: flex-start;
+        border-bottom: 1px solid white;
+        height: 30px;
+    }
+    
+    .spell-progess {
+        height: 30px;
+        transition: .2s;
+        }
+    
+    .spell-des {
+        font-size: 16px;
+    }
+    
 }

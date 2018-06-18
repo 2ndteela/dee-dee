@@ -472,7 +472,12 @@ class EditPage extends Component {
                         <div key={'spellname ' + itr} className='spell-div'>
                             <input type='text' value={spell.name} placeholder='Name' onChange={(e) => this.changeSpellName(e,itr)} />
                                 <input type='text' value={spell.dmg} placeholder='Damage' onChange={(e) => this.changeSpellDamage(e, itr)} className='half-wit first'/>
-                                <input type='text' value={spell.lvl} placeholder='Spell Lvl' className='half-wit' onChange={(e) => this.changeSpellLvl(e, itr)} />
+                                <select value={spell.lvl} className="half-wit" onChange={(e) => this.changeSpellLvl(e, itr)} >
+                                    { this.state.guy.spellSlots.map((thing, itr) => {
+                                        if(itr === 0) return <option key='Cant' value='Cantrip'>Cantrip</option>
+                                        else return <option value={itr} key={itr + 'cn'} >{itr}</option>
+                                    }) }
+                                </select>
                             <textarea value={spell.des} className='short-area' onChange={(e) => this.changeSpellDes(e, itr)}/> 
                             {CheckBox(spell.prep)}
                         </div>

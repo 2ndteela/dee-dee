@@ -78,6 +78,10 @@ button:hover {
   background-color: black;
 }
 
+.full-width {
+  width: 100% !important;
+}
+
 .line {
   border-bottom: 1px solid white; 
 }
