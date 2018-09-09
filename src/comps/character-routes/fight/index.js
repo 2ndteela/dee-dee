@@ -67,8 +67,8 @@ class Fight extends Component {
                 <div id='spell-sort-buttons'>
                     <button id='all-spells' onClick={() => this.sortSpells('All')}>All</button>
                     {this.state.guy.spellSlots.map((slot, itr) => {
-                        if(slot.lvl === 'Cantrips:') return <button onClick={() => this.sortSpells(itr)}>Cant.</button>
-                        return <button onClick={() => this.sortSpells(itr)}>Lvl {itr}</button>
+                        if(slot.lvl === 'Cantrips:') return <button key={itr + 'bjs'} onClick={() => this.sortSpells(itr)}>Cant.</button>
+                        return <button key={itr + 'bjs'} onClick={() => this.sortSpells(itr)}>Lvl {itr}</button>
                     })}
                     
                 </div>
@@ -76,12 +76,12 @@ class Fight extends Component {
                     {this.state.spellArray.map((thing, itr) => {
                         if(thing.prep) {
                         return (
-                            <div className='spell-deets' key={itr + 'qq'} onClick={(itr) => this.toggleExp(itr)} >
+                            <div className='spell-deets' key={itr + 'qq'} onClick={() => this.toggleExp(itr)} >
                                 <div className='spell-header'>
                                     <h3>{thing.name}</h3>
                                     <h3>{thing.dmg}</h3>
                                 </div>
-                                <div className='expansion-pannel' >
+                                <div className={'expansion-panel ' + thing.expanded + '-expanded'}>
                                     <h4>Level: {thing.lvl}</h4>
                                     <span className='spell-des'>{thing.des}</span>
                                 </div>
@@ -98,12 +98,17 @@ class Fight extends Component {
     }
 
     toggleExp(num) {
-        console.log('expanding ' + num)
-
         const temp = this.state.spellArray
+        const charLength = temp[num].des.length
 
-        if(temp[num].expanded) temp[num].expanded = false
-        else temp[num].expanded = true
+        if(temp[num].expanded === 'not' || !temp[num].expanded) {
+            if(charLength < 200) temp[num].expanded = 'sml'
+            else if (charLength < 500) temp[num].expanded = 'mid'
+            else if(charLength < 700) temp[num].expanded = 'lrg'
+            else temp[num].expanded = 'huge'
+        }
+
+        else temp[num].expanded = 'not'
 
         this.setState({
             spellArray: temp
@@ -265,8 +270,8 @@ class Fight extends Component {
                         <span>Bns</span>
                         <span className='weapon-damage'>Damage</span>
                     </div>
-                    {this.state.guy.weapons.map((data,itr) => (
-                        <div key={data.bonus + 1} className='weapon-info'>
+                    {this.state.guy.weapons.map((data, itr) => (
+                        <div key={itr + "1"} className='weapon-info'>
                             <span className='weapon-name'>{data.name}</span>
                             <span>{data.bonus}</span>
                             <span className='weapon-damage'>{data.damage}</span>

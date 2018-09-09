@@ -240,10 +240,32 @@
     margin-bottom: 16px; 
 }
 
-.expansion-pannel {
-    height: 0px;
+.expansion-panel {
+    max-height: 0px;
     overflow: hidden;
-    transition: .2s;
+    transition: .3s ease-in-out;
+    flex-direction: column !important;
+    align-items: flex-start;
+}
+
+.not-expanded {
+    max-height: 0px !important;
+}
+
+.sml-expanded {
+    max-height: 150px !important;
+}
+
+.mid-expanded {
+    max-height: 200px !important;
+}
+
+.lrg-expanded {
+    max-height: 250px !important;
+}
+
+.huge-expanded {
+    max-height: 450px !important;
 }
 
 @media screen and (min-width: 768px) {
@@ -332,6 +354,10 @@
         margin-top: 16px;
         width: 368px !important;
         align-items: flex-start;
+    }
+
+    .spell-deets:hover {
+        cursor: pointer;
     }
     
     #magic-head {

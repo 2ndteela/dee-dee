@@ -67,29 +67,9 @@ class EditPage extends Component {
         this.toggleProStat = this.toggleProStat.bind(this)
     }
     saveCharacter() {
-            const inputs = document.querySelectorAll('input')
-            const weapons = document.querySelectorAll('.weapon-div')
-            const skills = document.querySelectorAll('.skill-area')
             const spells = document.querySelectorAll('.spell-div')
-            const slots = document.querySelectorAll('.spell-slot')
             const preparedSpells = document.querySelectorAll('.inner-check-box')
-            let statArray = this.state.guy.stats
-            let deetArray = this.state.guy.deets
-            let weaponArray = []
-            let skillArray = []
             let spellArray = []
-            let slotArray = []
-            for(let i = 0; i < weapons.length; i++) {
-                    const title = weapons[i].childNodes[0].value === '' ? this.state.guy.weapons[i].name : weapons[i].childNodes[0].value
-                    const bns = weapons[i].childNodes[1].value === '' ? this.state.guy.weapons[i].bonus : weapons[i].childNodes[1].value
-                    const dmg = weapons[i].childNodes[2].value === '' ? this.state.guy.weapons[i].damage : weapons[i].childNodes[2].value
-                    weaponArray.push({name: title, bonus: bns, damage: dmg })
-            }
-            for(let i = 0; i < skills.length; i++) {
-                    const word = this.state.guy.skills[i].name
-                    const describe = this.state.guy.skills[i].des
-                    skillArray.push({name: word, des: describe})
-            }
             for(let i = 0; i < spells.length; i++) {
                 const title = this.state.guy.spells[i].name
                 const damage = this.state.guy.spells[i].dmg
@@ -99,39 +79,30 @@ class EditPage extends Component {
                 if(preparedSpells[i].classList.contains('checked')) temp.prep = true
                 spellArray.push(temp)
             }
-            for(let i = 0; i < slots.length; i++) {
-                const level = slots[i].childNodes[0].innerHTML
-                const number = slots[i].childNodes[1].value === '' ? this.state.guy.spellSlots[i].num : slots[i].childNodes[1].value
-                slotArray.push({lvl: level, num: number, used: 0})
-            }
-
-            let name = this.state.guy.name
-            let race = this.state.guy.race
-            let guyClass = this.state.guy.class
             firebase.database().ref(`characters/${this.props.id}`).set({
-                name: inputs[0].value === '' ? name :  inputs[0].value,
-                race: inputs[1].value === '' ? race :  inputs[1].value,
-                class: inputs[2].value === '' ? guyClass :  inputs[2].value,
-                level: inputs[3].value === '' ? this.state.guy.level : parseInt(inputs[3].value, 10),
-                prof: inputs[4].value === '' ? this.state.guy.prof : parseInt(inputs[4].value, 10),
-                exp: inputs[5].value === '' ? this.state.guy.exp : parseInt(inputs[5].value, 10),
-                stats: statArray,
-                deets: deetArray,
-                ac: inputs[6].value === '' ? this.state.guy.ac : parseInt(inputs[6].value, 10),
-                speed: inputs[7].value === '' ? this.state.guy.speed : parseInt(inputs[7].value, 10),
-                initiative: inputs[8].value === '' ? this.state.guy.initiative : parseInt(inputs[8].value, 10),
-                health: inputs[9].value === '' ? this.state.guy.health : parseInt(inputs[9].value, 10),
+                name: this.state.guy.name,
+                race: this.state.guy.race,
+                class: this.state.guy.class,
+                level: this.state.guy.level,
+                prof: this.state.guy.prof,
+                exp: this.state.guy.exp,
+                stats: this.state.guy.stats,
+                deets: this.state.guy.deets,
+                ac: this.state.guy.ac, 
+                speed: this.state.guy.speed,
+                initiative: this.state.guy.initiative,
+                health: this.state.guy.health,
                 pack: this.state.guy.pack,
                 notes: this.state.guy.notes,
-                skills: skillArray,
+                skills: this.state.guy.skills,
                 tempHealth : this.state.guy.tempHealth,
                 currentHealth: this.state.guy.currentHealth,
                 spells: spellArray,
-                spellSave: document.getElementById('spell-save').value === '' ? this.state.guy.spellSave : parseInt(document.getElementById('spell-save').value, 10),
-                spellSlots: slotArray,
-                weapons: weaponArray,
+                spellSave: this.state.guy.spellSave,
+                spellSlots: this.state.guy.spellSlots,
+                weapons: this.state.guy.weapons,
                 password: this.state.guy.password,
-                alignment: document.getElementById('aligment-select').value
+                alignment: this.state.guy.alignment
             }).then((res, req, err) => {
                 if(err) return
                 else showMessage()
@@ -193,7 +164,6 @@ class EditPage extends Component {
             this.setState({
                 guy: tempGuy
             })
-            console.log(this.state.guy)
         }
     }
     addPro(num) {
@@ -228,7 +198,6 @@ class EditPage extends Component {
                 })
             }
         }
-        console.log(this.state.guy)
     }
     addSpell () {
         let temp = this.state.guy
@@ -247,25 +216,30 @@ class EditPage extends Component {
     }
 
     addSlot() {
-        const daddy = document.getElementById('spell-slots')
-        const container = document.createElement('div')
-        const input = document.createElement('input')
-        const header = document.createElement('h3')
-        input.placeholder = '# of Slots'
-        header.innerHTML = `Level ${daddy.childNodes.length}:`
-        container.classList.add('spell-slot')
-        container.appendChild(header)
-        container.appendChild(input)
-        daddy.appendChild(container)
+        let temp = this.state.guy
+        temp.spellSlots.push({lvl: 'Level ' + temp.spellSlots.length + ':'})
+        this.setState({
+            guy: temp
+        })
     }
 
     removeSlot () {
-        const over = document.getElementById('spell-slots')
-        if(over.childNodes.length > 1) {
-            const last = over.childNodes[over.childNodes.length - 1]
-            over.removeChild(last)
-        }
+        let temp = this.state.guy
+        temp.spellSlots.pop()
+        this.setState({
+            guy: temp
+        })
     }
+
+    spellSoltUpdate(e, itr) {
+        let temp = this.state.guy
+        temp.spellSlots[itr].num = e.target.value
+
+        this.setState({
+            guy: temp
+        })
+    }
+
     incValue(idx) {
         let tempGuy = this.state.guy
         let val = tempGuy.stats[idx].num
@@ -378,6 +352,45 @@ class EditPage extends Component {
         })
     }
 
+    changeWeaponName(e, itr) {
+        let tempGuy = this.state.guy
+        let wep = e.target.value
+        tempGuy.weapons[itr].name = wep
+        this.setState({
+            guy: tempGuy
+        })
+    } 
+
+    changeWeaponBonus(e, itr) {
+        let tempGuy = this.state.guy
+        let wep = e.target.value
+        tempGuy.weapons[itr].bonus = wep
+        this.setState({
+            guy: tempGuy
+        })
+    }
+    
+    changeWeaponDamage(e, itr) {
+        let tempGuy = this.state.guy
+        let wep = e.target.value
+        tempGuy.weapons[itr].damage = wep
+        this.setState({
+            guy: tempGuy
+        })
+    } 
+
+    generalChange(e, val) {
+        let tempGuy = this.state.guy
+        let temp = e.target.value
+
+        tempGuy[val] = temp
+
+        this.setState({
+            guy: tempGuy
+        })
+
+    }
+
     componentWillMount() {
         var fireRef = firebase.database().ref(`characters/${this.props.id}`)
         fireRef.on('value', (snapshot) => {
@@ -400,26 +413,50 @@ class EditPage extends Component {
             <div className ='col-12 full-pad new-char-card'>
                 <div>
                     <h2>Basic Info</h2>
-                    <input type='text' placeholder={this.state.guy.name}/>
-                    <input type='text' placeholder={this.state.guy.race}/>
-                    <input type='text' placeholder={this.state.guy.class} className='third-wit'/>
-                    <input type='number' placeholder={`Lvl: ${this.state.guy.level}`} className='third-wit middle'/>
-                    <input type='number' placeholder={`Prof: ${this.state.guy.prof}`} id='prof' className='third-wit'/>
-                    <input type='number' placeholder={`Exp: ${this.state.guy.exp}`} className='half-wit first'/>
-                    <select className='half-wit' value={this.state.guy.alignment} id='aligment-select'>
-                        <option>Lawful Good</option>
-                        <option>Neutral Good</option>
-                        <option>Chaotic Good</option>
-                        <option>Lawful Neutral</option>
-                        <option>True Neutral</option>
-                        <option>Chaotic Neutral</option>
-                        <option>Lawful Evil</option>
-                        <option>Neutral Evil</option>
-                        <option>Chaotic Evil</option>
-                    </select>
+                    <div>
+                        <input type='text' className='twopx-margin' value={this.state.guy.name} onChange={(e) => this.generalChange(e, 'name')}/>
+                        <label>Name</label>
+                    </div>
+                    <div>
+                        <input type='text' className='twopx-margin' value={this.state.guy.race} onChange={(e) => this.generalChange(e, 'race')}/>
+                        <label>Race</label>
+                    </div>
+                    <div className='third-wit'>
+                        <input type='text' className='twopx-margin' value={this.state.guy.class} onChange={(e) => this.generalChange(e, 'class')}/>
+                        <label>Class</label>
+                    </div>
+                    <div className='third-wit middle'>
+                        <input type='number' value={this.state.guy.level} className='twopx-margin' onChange={(e) => this.generalChange(e, 'level')} />
+                        <label>Level</label>
+                    </div>
+                    <div className='third-wit'>
+                        <input type='number' value={this.state.guy.prof} id='prof' className='twopx-margin' onChange={(e) => this.generalChange(e, 'prof')}/>
+                        <label>Proficiency</label>
+                    </div>
+                    <div className='half-wit first'>
+                        <input type='number' value={this.state.guy.exp} className='twopx-margin' onChange={(e) => this.generalChange(e, 'exp')}/>
+                        <label>Expirience</label>
+                    </div>
+                    <div className='half-wit'>
+                        <div className='twopx-margin'>
+                        <select value={this.state.guy.alignment} onChange={(e) => this.generalChange(e, 'alignment')} >
+                            <option>Lawful Good</option>
+                            <option>Neutral Good</option>
+                            <option>Chaotic Good</option>
+                            <option>Lawful Neutral</option>
+                            <option>True Neutral</option>
+                            <option>Chaotic Neutral</option>
+                            <option>Lawful Evil</option>
+                            <option>Neutral Evil</option>
+                            <option>Chaotic Evil</option>
+                        </select>
+                        </div>
+                        <label>Alignment</label>
+                    </div>
                 </div>
                 <div id='edit-stats'>
                     <h2>Stats</h2>
+                    <div>
                     {this.state.guy.stats.map((thing, itr) => (
                     <div className='throw-box' key={itr + 'c'}>
                         {proTitle(statNames[itr], this.state.guy.stats[itr].pro, this.toggleProStat, itr)}
@@ -430,10 +467,23 @@ class EditPage extends Component {
                         </div>
                     </div>
                     ))}
-                    <input type='number' placeholder={`AC: ${this.state.guy.ac}`} className='third-wit' />
-                    <input type='number' placeholder={`Speed: ${this.state.guy.speed}`} className='third-wit middle' />
-                    <input type='number'placeholder={`Init: ${this.state.guy.initiative}`} className='third-wit' />
-                    <input type='number' placeholder={`Health: ${this.state.guy.health}`} />
+                    </div>
+                    <div className='third-wit'>
+                        <input type='number' value={this.state.guy.ac} onChange={(e) => this.generalChange(e, 'ac')} className='twopx-margin' />
+                        <label>Armor Class</label>
+                    </div>
+                    <div className='third-wit middle'>
+                        <input type='number' value={this.state.guy.speed} onChange={(e) => this.generalChange(e, 'speed')} className='twopx-margin' />
+                        <label>Speed</label>
+                    </div>
+                    <div className='third-wit' >
+                        <input type='number'  className='twopx-margin' value={this.state.guy.initiative} onChange={(e) => this.generalChange(e, 'initiative')} />
+                        <label>Initiative</label>
+                    </div>
+                    <div>
+                        <input type='number' className='twopx-margin' value={this.state.guy.health} />
+                        <label>Max Health</label>
+                    </div>
                 </div>
                 <div>
                     <h2>Detail Stats</h2>
@@ -454,10 +504,10 @@ class EditPage extends Component {
                     <h2>Weapons</h2>
                     <div id='weapons'>
                         {this.state.guy.weapons.map((data, itr) => (
-                            <div key={data.name} className='weapon-div'>
-                                <input type='text' placeholder={data.name} />
-                                <input type='text' placeholder={data.bonus}/>
-                                <input type='text' placeholder={data.damage}/>
+                            <div key={itr + 'weap'} className='weapon-div'>
+                                <input type='text' value={data.name} onChange={(e)=> this.changeWeaponName(e, itr)} />
+                                <input type='text' value={data.bonus} onChange={(e)=> this.changeWeaponBonus(e, itr)}/>
+                                <input type='text' value={data.damage} onChange={(e)=> this.changeWeaponDamage(e, itr)}/>
                             </div>
                         ))}
                     </div>
@@ -466,18 +516,30 @@ class EditPage extends Component {
                 </div>
                 <div className='center-div'>
                     <h2>Spells</h2>
-                    <input type='text' id='spell-save' placeholder={`Spell Save DC: ${this.state.guy.spellSave}`}/>
+                    <div>
+                        <input type='text' className='twopx-margin' id='spell-save' value={this.state.guy.spellSave} onChange={(e) => this.generalChange(e, 'spellSave')}/>
+                        <label>Spell Save</label>
+                    </div>
                     <div id='spells'>
                     {this.state.guy.spells.map((spell, itr) => (
                         <div key={'spellname ' + itr} className='spell-div'>
-                            <input type='text' value={spell.name} placeholder='Name' onChange={(e) => this.changeSpellName(e,itr)} />
-                                <input type='text' value={spell.dmg} placeholder='Damage' onChange={(e) => this.changeSpellDamage(e, itr)} className='half-wit first'/>
-                                <select value={spell.lvl} className="half-wit" onChange={(e) => this.changeSpellLvl(e, itr)} >
+                            <div>
+                                <input type='text' value={spell.name} onChange={(e) => this.changeSpellName(e,itr)} className='twopx-margin' />
+                                <label>Name</label>
+                            </div>
+                            <div className='half-wit first'>
+                                <input type='text' value={spell.dmg} onChange={(e) => this.changeSpellDamage(e, itr)} className='twopx-margin' />
+                                <label>Damage</label>
+                            </div>
+                            <div className="half-wit">
+                                <select value={spell.lvl} className="twopx-margin" onChange={(e) => this.changeSpellLvl(e, itr)} >
                                     { this.state.guy.spellSlots.map((thing, itr) => {
                                         if(itr === 0) return <option key='Cant' value='Cantrip'>Cantrip</option>
                                         else return <option value={itr} key={itr + 'cn'} >{itr}</option>
                                     }) }
                                 </select>
+                                <label>Level</label>
+                            </div>
                             <textarea value={spell.des} className='short-area' onChange={(e) => this.changeSpellDes(e, itr)}/> 
                             {CheckBox(spell.prep)}
                         </div>
@@ -493,7 +555,7 @@ class EditPage extends Component {
                     {this.state.guy.spellSlots.map((thing, itr) => (
                         <div key={thing.lvl+'a'} className='spell-slot'>
                             <h3>{thing.lvl}</h3>
-                            <input type='number' placeholder={thing.num} />
+                            <input type='number' value={thing.num} onChange={(e) => this.spellSoltUpdate(e, itr)} />
                         </div>
                     ))}
 
